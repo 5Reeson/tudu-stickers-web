@@ -1,0 +1,13 @@
+---
+import SiteLayout from "@/layouts/SiteLayout.astro";
+---
+<SiteLayout title="页面没有找到 | 图渡" description="这个页面不存在，返回图渡首页继续浏览。" canonicalPath="/404">
+  <main class="not-found"><div><span aria-hidden="true">404</span><h1>这张梗图，可能走错群了</h1><p>页面不存在，或者链接已经改变。</p><a class="button-primary" href="/">返回首页</a></div></main>
+</SiteLayout>
+<style>
+  .not-found { display: grid; min-height: 100dvh; place-items: center; padding: 2rem; text-align: center; }
+  .not-found > div { display: grid; justify-items: center; gap: 1.25rem; }
+  .not-found span { color: var(--accent); font-family: ui-monospace, monospace; font-size: 1rem; font-weight: 800; }
+  .not-found h1 { max-width: 12ch; margin: 0; font-size: clamp(2.6rem, 7vw, 6rem); line-height: 1.05; letter-spacing: -.06em; }
+  .not-found p { margin: 0; color: var(--muted); }
+</style>

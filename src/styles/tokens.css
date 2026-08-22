@@ -1,0 +1,38 @@
+:root {
+  color-scheme: light;
+  --paper: #fbfaf7;
+  --paper-raised: #fffefb;
+  --paper-soft: #f4f2ec;
+  --ink: #171717;
+  --ink-soft: #23344e;
+  --muted: #62635f;
+  --accent: #16a34a;
+  --accent-strong: #087a35;
+  --accent-soft: #dcfce7;
+  --line: rgb(23 23 23 / 14%);
+  --line-strong: rgb(23 23 23 / 28%);
+  --focus: #087a35;
+  --radius-control: 10px;
+  --radius-panel: 14px;
+  --radius-paper: 22px;
+  --shadow-sticker: 4px 5px 0 rgb(20 20 20 / 12%);
+  --shadow-panel: 0 20px 65px rgb(44 39 28 / 9%);
+  --page-gutter: clamp(1.25rem, 4vw, 4rem);
+  --content-max: 1440px;
+  --z-paper: 0;
+  --z-content: 10;
+  --z-header: 30;
+  --z-menu: 40;
+}
+
+/* Reserved for a later, separately reviewed dark visual pass. */
+[data-theme="dark"] {
+  --paper: #171816;
+  --paper-raised: #20211f;
+  --paper-soft: #292a27;
+  --ink: #f4f2ec;
+  --ink-soft: #d8dde5;
+  --muted: #b4b6b0;
+  --line: rgb(244 242 236 / 16%);
+  --line-strong: rgb(244 242 236 / 30%);
+}

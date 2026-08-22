@@ -1,0 +1,31 @@
+{
+  "name": "cn-memes-abroad-web",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@10.14.0",
+  "scripts": {
+    "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
+    "start": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
+    "check": "ASTRO_TELEMETRY_DISABLED=1 astro check",
+    "build": "ASTRO_TELEMETRY_DISABLED=1 astro check && ASTRO_TELEMETRY_DISABLED=1 astro build",
+    "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
+    "cf:preview": "pnpm build && wrangler dev",
+    "deploy": "pnpm build && wrangler deploy",
+    "deploy:dry": "pnpm build && wrangler deploy --dry-run"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "latest",
+    "@iconify-json/ph": "latest",
+    "astro": "latest",
+    "astro-icon": "latest"
+  },
+  "devDependencies": {
+    "@astrojs/check": "latest",
+    "@tailwindcss/vite": "latest",
+    "@types/node": "latest",
+    "tailwindcss": "latest",
+    "typescript": "^6.0.0",
+    "wrangler": "latest"
+  }
+}

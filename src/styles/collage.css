@@ -1,0 +1,232 @@
+.hero-collage {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  aspect-ratio: 1.12 / 1;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+@media (min-width: 901px) {
+  .hero-collage {
+    width: min(100%, 36rem);
+    justify-self: end;
+  }
+}
+
+.collage-layer,
+.paper-shape,
+.burst,
+.halftone {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+}
+
+.collage-layer picture,
+.collage-layer img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.app-shot {
+  z-index: 3;
+  top: -2%;
+  left: -4%;
+  width: 125%;
+  filter: drop-shadow(12px 16px 20px rgb(17 17 17 / 20%));
+}
+
+.lulu-sticker {
+  z-index: 5;
+  left: 1%;
+  bottom: 12%;
+  width: 32%;
+  --rotate: -5deg;
+  --delay: 120ms;
+}
+
+.cats-sticker {
+  z-index: 6;
+  left: 21%;
+  bottom: 0;
+  width: 40%;
+  --rotate: 1deg;
+  --delay: 210ms;
+}
+
+.dog-sticker {
+  z-index: 7;
+  right: 17%;
+  bottom: -3%;
+  width: 31%;
+  --rotate: 4deg;
+  --delay: 260ms;
+}
+
+.cow-sticker {
+  z-index: 6;
+  right: -4%;
+  top: 17%;
+  width: 29%;
+  --rotate: 5deg;
+  --delay: 180ms;
+}
+
+.paper-shape {
+  z-index: 1;
+  opacity: 0.96;
+  filter: saturate(0.95);
+}
+
+.paper-yellow {
+  right: -3%;
+  top: 4%;
+  width: 26%;
+  height: 42%;
+  transform: rotate(12deg);
+  background: #f8b90d;
+  clip-path: polygon(12% 3%, 88% 0, 100% 84%, 61% 100%, 3% 83%);
+}
+
+.paper-red {
+  right: -6%;
+  top: 26%;
+  width: 23%;
+  height: 53%;
+  transform: rotate(-7deg);
+  background:
+    radial-gradient(circle, rgb(23 23 23 / 28%) 0 1.4px, transparent 1.6px) 0 0 / 10px 10px,
+    #f24736;
+  clip-path: polygon(8% 0, 100% 12%, 94% 94%, 38% 100%, 0 76%);
+}
+
+.paper-blue {
+  z-index: 4;
+  right: 1%;
+  bottom: -7%;
+  width: 63%;
+  height: 25%;
+  transform: rotate(2deg);
+  background: #156fee;
+  clip-path: polygon(0 23%, 10% 18%, 17% 25%, 26% 8%, 38% 21%, 50% 5%, 62% 16%, 74% 3%, 84% 20%, 93% 11%, 100% 18%, 100% 100%, 0 100%);
+}
+
+.halftone {
+  z-index: 2;
+  left: 18%;
+  top: 0;
+  width: 35%;
+  height: 23%;
+  transform: rotate(8deg);
+  opacity: 0.85;
+  background: radial-gradient(circle, var(--ink) 0 1.8px, transparent 2px) 0 0 / 9px 9px;
+  clip-path: polygon(8% 34%, 74% 0, 100% 78%, 0 100%);
+}
+
+.burst {
+  z-index: 8;
+  display: grid;
+  place-items: center;
+  color: var(--ink);
+  font-weight: 950;
+  line-height: 1;
+  filter: drop-shadow(3px 4px 0 rgb(23 23 23 / 18%));
+  clip-path: polygon(50% 0, 60% 24%, 82% 10%, 78% 36%, 100% 43%, 76% 55%, 91% 77%, 65% 72%, 57% 100%, 45% 75%, 21% 92%, 25% 64%, 0 57%, 25% 45%, 9% 23%, 36% 29%);
+}
+
+.burst-blue {
+  top: 3%;
+  right: 15%;
+  width: 18%;
+  aspect-ratio: 1;
+  transform: rotate(7deg);
+  background: #2187f4;
+  font-size: clamp(1.6rem, 3.5vw, 3.4rem);
+}
+
+.burst-yellow {
+  right: 7%;
+  bottom: 17%;
+  width: 10%;
+  aspect-ratio: 1;
+  transform: rotate(-8deg);
+  background: #facc15;
+  font-size: clamp(0.85rem, 1.75vw, 1.55rem);
+}
+
+@media (max-width: 767px) {
+  .hero-collage {
+    aspect-ratio: 4 / 5;
+    margin-top: -3rem;
+  }
+
+  .app-shot {
+    top: 3%;
+    left: -10%;
+    width: 145%;
+  }
+
+  .lulu-sticker {
+    left: -6%;
+    bottom: 48%;
+    width: 34%;
+  }
+
+  .cats-sticker {
+    left: 3%;
+    bottom: 1%;
+    width: 48%;
+  }
+
+  .dog-sticker {
+    right: 20%;
+    bottom: 0;
+    width: 36%;
+  }
+
+  .cow-sticker {
+    right: -4%;
+    top: 16%;
+    width: 31%;
+  }
+
+  .paper-yellow {
+    right: -8%;
+    top: 5%;
+    width: 31%;
+    height: 46%;
+  }
+
+  .paper-red {
+    right: -10%;
+    top: 22%;
+    width: 28%;
+    height: 54%;
+  }
+
+  .paper-blue {
+    right: -7%;
+    bottom: -3%;
+    width: 83%;
+    height: 20%;
+  }
+
+  .halftone {
+    left: 36%;
+    top: 4%;
+    width: 32%;
+    height: 15%;
+  }
+
+  .burst-blue {
+    top: 4%;
+    right: 17%;
+    width: 20%;
+  }
+
+  .burst-yellow {
+    display: none;
+  }
+}

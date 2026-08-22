@@ -1,0 +1,54 @@
+---
+import "@/styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+  canonicalPath?: string;
+  ogImage?: string;
+}
+
+const {
+  title,
+  description,
+  canonicalPath = "/",
+  ogImage = "/og/home-temporary.png",
+} = Astro.props;
+
+const canonical = new URL(canonicalPath, Astro.site ?? Astro.url);
+const ogImageUrl = new URL(ogImage, Astro.site ?? Astro.url);
+const softwareApplication = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "图渡",
+  applicationCategory: "UtilitiesApplication",
+  operatingSystem: "macOS",
+  description,
+  offers: { "@type": "Offer", availability: "https://schema.org/PreOrder" },
+};
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#fbfaf7" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    <title>{title}</title>
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(softwareApplication)} />
+  </head>
+  <body><slot /></body>
+</html>

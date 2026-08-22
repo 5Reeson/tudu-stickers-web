@@ -1,0 +1,19 @@
+---
+import DownloadCta from "@/components/DownloadCta.astro";
+import FaqSection from "@/components/FaqSection.astro";
+import FeatureDetails from "@/components/FeatureDetails.astro";
+import Hero from "@/components/Hero.astro";
+import SecuritySection from "@/components/SecuritySection.astro";
+import SiteFooter from "@/components/SiteFooter.astro";
+import SiteHeader from "@/components/SiteHeader.astro";
+import TrustStrip from "@/components/TrustStrip.astro";
+import WorkflowGrid from "@/components/WorkflowGrid.astro";
+import SiteLayout from "@/layouts/SiteLayout.astro";
+const title = "图渡 | 把中文梗带到每一场聊天";
+const description = "在 Mac 上从微信与本机整理表情，轻松导出到 WhatsApp 或本地。素材全程本地处理。";
+---
+<SiteLayout title={title} description={description}>
+  <SiteHeader />
+  <main><Hero /><TrustStrip /><WorkflowGrid /><SecuritySection /><FeatureDetails /><FaqSection /><DownloadCta /></main>
+  <SiteFooter />
+</SiteLayout>

@@ -1,0 +1,32 @@
+@keyframes sticker-in {
+  from {
+    opacity: 0;
+    transform: translate3d(var(--from-x, 0), var(--from-y, 18px), 0) rotate(calc(var(--rotate, 0deg) - 3deg)) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotate(var(--rotate, 0deg)) scale(1);
+  }
+}
+
+@keyframes sticker-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(var(--rotate, 0deg));
+  }
+  50% {
+    transform: translate3d(0, -8px, 0) rotate(calc(var(--rotate, 0deg) + 1.5deg));
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .collage-entrance {
+    animation: sticker-in 760ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: var(--delay, 0ms);
+  }
+
+  .collage-float {
+    animation: sticker-float 5.8s ease-in-out infinite;
+    animation-delay: var(--delay, 0ms);
+  }
+}

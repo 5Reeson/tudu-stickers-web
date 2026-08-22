@@ -1,0 +1,23 @@
+---
+const faqs = [
+  { question: "素材会上传到服务器吗？", answer: "不会。导入、整理与导出都在你的 Mac 上完成，素材不会被上传、分析或留存在云端。" },
+  { question: "现在支持哪些来源？", answer: "首版围绕微信与本机文件导入。更多来源会在完成真实适配与测试后公布。" },
+  { question: "什么时候可以下载？", answer: "安装包完成签名、公证与基础兼容性测试后开放。当前页面先用于确认官网与产品信息。" },
+  { question: "Windows 可以使用吗？", answer: "目前只规划 macOS 版本。Windows 版本尚无确认时间。" },
+];
+---
+<section id="faq" class="faq section-block" aria-labelledby="faq-title">
+  <div class="page-shell faq-grid"><div><h2 id="faq-title" class="section-title">使用前，先了解这些</h2><p class="body-copy">没有模糊承诺，也不填虚构版本号。当前信息会随着真实发布进度更新。</p></div><div class="faq-list">{faqs.map((faq, index) => <details open={index === 0}><summary>{faq.question}</summary><p>{faq.answer}</p></details>)}</div></div>
+</section>
+<style>
+  .faq-grid { display: grid; grid-template-columns: minmax(18rem, .8fr) minmax(0, 1.2fr); gap: clamp(3rem, 9vw, 9rem); }
+  .faq-grid > div:first-child { display: grid; align-content: start; gap: 1.5rem; }
+  .faq-list { border-top: 1px solid var(--line-strong); }
+  .faq-list details { border-bottom: 1px solid var(--line); }
+  .faq-list summary { position: relative; min-height: 72px; padding: 1.35rem 3rem 1.35rem 0; cursor: pointer; list-style: none; font-size: 1.12rem; font-weight: 750; }
+  .faq-list summary::-webkit-details-marker { display: none; }
+  .faq-list summary::after { position: absolute; top: 50%; right: .25rem; width: 1.25rem; height: 1.25rem; content: "+"; font-size: 1.5rem; line-height: 1; transform: translateY(-50%); }
+  .faq-list details[open] summary::after { content: "−"; }
+  .faq-list p { max-width: 43rem; margin: -.35rem 3rem 1.5rem 0; color: var(--ink-soft); line-height: 1.75; }
+  @media (max-width: 800px) { .faq-grid { grid-template-columns: minmax(0, 1fr); gap: 3rem; } }
+</style>

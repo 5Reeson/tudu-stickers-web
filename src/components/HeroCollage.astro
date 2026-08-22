@@ -1,0 +1,20 @@
+---
+import { Picture } from "astro:assets";
+import appScreenshot from "@/assets/app-screenshots/import-step-temporary.png";
+import cow from "@/assets/characters/grass-cow-temporary.png";
+import dog from "@/assets/characters/dog-temporary.png";
+import lulu from "@/assets/characters/lulu-temporary.png";
+import cats from "@/assets/characters/peach-cats-temporary.png";
+---
+
+<div class="hero-collage" aria-label="图渡应用与原创角色拼贴预览">
+  <span class="paper-shape paper-yellow" aria-hidden="true"></span><span class="paper-shape paper-red" aria-hidden="true"></span><span class="halftone" aria-hidden="true"></span>
+  <div class="collage-layer app-shot collage-entrance" style="--delay: 40ms">
+    <Picture src={appScreenshot} widths={[640, 960, 1280]} sizes="(max-width: 767px) 82vw, 47vw" formats={["avif", "webp"]} loading="eager" fetchpriority="high" alt="图渡从微信导入表情的临时应用界面预览" />
+  </div>
+  <div class="collage-layer lulu-sticker collage-entrance"><Picture src={lulu} widths={[220, 420, 620]} sizes="30vw" formats={["avif", "webp"]} loading="eager" alt="头顶橙子的橙色水豚原创贴纸" /></div>
+  <div class="collage-layer cats-sticker collage-entrance"><Picture src={cats} widths={[280, 520, 760]} sizes="40vw" formats={["avif", "webp"]} loading="eager" alt="依偎在一起的一对白灰猫原创贴纸" /></div>
+  <div class="collage-layer dog-sticker collage-float"><Picture src={dog} widths={[220, 420, 620]} sizes="31vw" formats={["avif", "webp"]} loading="eager" alt="双手合十的金色小狗原创贴纸" /></div>
+  <div class="collage-layer cow-sticker collage-entrance"><Picture src={cow} widths={[200, 380, 560]} sizes="29vw" formats={["avif", "webp"]} loading="eager" alt="表情冷静的黑白奶牛原创贴纸" /></div>
+  <span class="burst burst-blue" aria-hidden="true">?!</span><span class="burst burst-yellow" aria-hidden="true">NB</span><span class="paper-shape paper-blue" aria-hidden="true"></span>
+</div>

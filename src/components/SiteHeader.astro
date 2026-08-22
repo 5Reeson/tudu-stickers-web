@@ -1,0 +1,67 @@
+---
+import { Icon } from "astro-icon/components";
+const navItems = [
+  { label: "首页", href: "#top" },
+  { label: "功能", href: "#workflow" },
+  { label: "安全", href: "#security" },
+  { label: "FAQ", href: "#faq" },
+  { label: "关于", href: "#about" },
+];
+---
+
+<header class="site-header" aria-label="网站页眉">
+  <div class="page-shell header-inner">
+    <a class="brand" href="#top" aria-label="图渡首页">
+      <span class="brand-mark" aria-hidden="true">图渡</span>
+      <span class="brand-name">图渡</span>
+    </a>
+    <nav class="desktop-nav" aria-label="主导航">
+      {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
+    </nav>
+    <a class="button-primary header-download" href="#download">
+      <Icon name="ph:download-simple" size={21} aria-hidden="true" /> 下载 macOS 版
+    </a>
+    <details class="mobile-menu">
+      <summary aria-label="打开主菜单"><Icon name="ph:list" size={32} aria-hidden="true" /></summary>
+      <nav aria-label="移动端主导航">
+        {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
+        <a class="mobile-download" href="#download">下载 macOS 版</a>
+      </nav>
+    </details>
+  </div>
+</header>
+
+<script>
+  const mobileMenu = document.querySelector<HTMLDetailsElement>(".mobile-menu");
+  mobileMenu?.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => mobileMenu.removeAttribute("open"));
+  });
+</script>
+
+<style>
+  .site-header { position: relative; z-index: var(--z-header); height: 72px; }
+  .header-inner { display: grid; height: 100%; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 1.5rem; }
+  .brand { display: inline-flex; min-width: max-content; align-items: center; gap: .85rem; justify-self: start; text-decoration: none; }
+  .brand-mark { display: grid; width: 58px; aspect-ratio: 1; place-items: center; border-radius: 12px; color: var(--paper-raised); background: var(--ink); font-size: 1.06rem; font-weight: 900; letter-spacing: -.08em; box-shadow: 2px 3px 0 rgb(23 23 23 / 12%); }
+  .brand-name { font-size: 1.1rem; font-weight: 750; letter-spacing: -.025em; }
+  .desktop-nav { display: flex; align-items: center; gap: clamp(1.5rem, 3.6vw, 3.6rem); }
+  .desktop-nav a { position: relative; padding-block: .75rem; font-size: .96rem; font-weight: 650; text-decoration: none; }
+  .desktop-nav a:first-child::after { position: absolute; right: 0; bottom: .25rem; left: 0; height: 2px; content: ""; background: var(--ink); }
+  .header-download { min-height: 46px; justify-self: end; box-shadow: none; }
+  .mobile-menu { display: none; }
+  @media (max-width: 900px) {
+    .site-header { height: 72px; }
+    .header-inner { display: flex; justify-content: space-between; }
+    .brand-mark { width: 48px; }
+    .desktop-nav, .header-download { display: none; }
+    .mobile-menu { position: relative; display: block; }
+    .mobile-menu summary { display: grid; width: 48px; height: 48px; cursor: pointer; list-style: none; place-items: center; border: 1px solid transparent; border-radius: var(--radius-control); }
+    .mobile-menu summary::-webkit-details-marker { display: none; }
+    .mobile-menu[open] summary { border-color: var(--line); background: var(--paper-raised); }
+    .mobile-menu nav { position: absolute; z-index: var(--z-menu); top: calc(100% + .65rem); right: 0; display: grid; width: min(78vw, 18rem); gap: .2rem; padding: .6rem; border: 1px solid var(--line); border-radius: var(--radius-panel); background: color-mix(in srgb, var(--paper-raised) 94%, transparent); box-shadow: var(--shadow-panel); backdrop-filter: blur(18px); }
+    .mobile-menu nav a { min-height: 46px; padding: .8rem .9rem; border-radius: 8px; font-weight: 700; text-decoration: none; }
+    .mobile-menu nav a:hover { background: var(--paper-soft); }
+    .mobile-menu .mobile-download { margin-top: .35rem; color: var(--paper-raised); background: var(--ink); text-align: center; }
+  }
+  @media (max-width: 420px) { .brand-name { font-size: 1rem; } }
+</style>

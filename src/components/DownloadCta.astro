@@ -1,0 +1,19 @@
+---
+import { Icon } from "astro-icon/components";
+---
+<section id="download" class="download section-block" aria-labelledby="download-title"><div class="page-shell"><div class="download-panel">
+  <div><h2 id="download-title">让每一张梗图，都去到它该在的聊天</h2><p>macOS 安装包将在签名、公证和兼容性测试完成后开放。</p></div>
+  <button class="button-primary" type="button" disabled aria-describedby="download-status"><Icon name="ph:download-simple" size={23} aria-hidden="true" />下载 macOS 版</button><span id="download-status" class="download-status">暂未开放下载</span>
+</div></div></section>
+<style>
+  .download { padding-top: 1rem; }
+  .download-panel { position: relative; display: grid; min-height: 25rem; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 2rem; overflow: hidden; padding: clamp(2rem, 6vw, 5.5rem); border-radius: var(--radius-paper); color: var(--paper-raised); background: radial-gradient(circle at 82% 15%, rgb(22 163 74 / 78%), transparent 24rem), var(--ink); }
+  .download-panel::after { position: absolute; top: 12%; right: -5%; width: 26%; aspect-ratio: 1; content: ""; opacity: .35; background: radial-gradient(circle, white 0 1.5px, transparent 1.8px) 0 0 / 11px 11px; transform: rotate(8deg); }
+  .download-panel > * { position: relative; z-index: 1; }
+  .download h2 { max-width: 16ch; margin: 0; font-size: clamp(2.4rem, 5vw, 5.3rem); line-height: 1.07; letter-spacing: -.065em; }
+  .download p { margin: 1.25rem 0 0; color: rgb(255 255 255 / 78%); line-height: 1.7; }
+  .download .button-primary { border-color: var(--paper-raised); color: var(--ink); background: var(--paper-raised); box-shadow: none; }
+  .download .button-primary:disabled { cursor: not-allowed; opacity: .68; }
+  .download-status { position: absolute; right: clamp(2rem, 6vw, 5.5rem); bottom: clamp(1rem, 2vw, 2.2rem); color: rgb(255 255 255 / 68%); font-size: .82rem; }
+  @media (max-width: 720px) { .download-panel { min-height: 30rem; grid-template-columns: minmax(0, 1fr); align-content: end; } .download .button-primary { width: 100%; } .download-status { position: static; text-align: center; } }
+</style>

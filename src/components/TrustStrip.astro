@@ -1,0 +1,31 @@
+---
+import { Icon } from "astro-icon/components";
+const trustItems = [
+  { icon: "ph:shield-check", label: "本地处理", description: "所有数据仅在你的设备上处理", accent: true },
+  { icon: "ph:lock-key", label: "不上传素材", description: "不上传、不同步，不触碰你的数据" },
+  { icon: "ph:desktop", label: "macOS", description: "专为 macOS 设计，原生体验" },
+];
+---
+<section class="trust-strip" aria-label="产品信任信息">
+  <div class="page-shell trust-inner">
+    <img class="note-paper" src="/design/trust-note-paper-transparent.png" alt="" aria-hidden="true" />
+    {trustItems.map((item) => <div class:list={["trust-item", { accent: item.accent }]}><Icon name={item.icon} size={27} aria-hidden="true" /><span><strong>{item.label}</strong><small>{item.description}</small></span></div>)}
+  </div>
+</section>
+<style>
+  .trust-strip { position: relative; }
+  .trust-inner { position: relative; display: flex; min-height: 88px; align-items: center; justify-content: center; gap: clamp(2rem, 6vw, 6rem); overflow: hidden; }
+  .note-paper { position: absolute; z-index: 0; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; pointer-events: none; user-select: none; }
+  .trust-item { position: relative; z-index: 1; display: inline-flex; min-width: max-content; align-items: center; gap: .65rem; font-size: 1rem; font-weight: 700; }
+  .trust-item span { display: grid; gap: .18rem; }
+  .trust-item strong { font: inherit; }
+  .trust-item small { color: var(--muted); font-size: .72rem; font-weight: 520; line-height: 1.25; }
+  .trust-item + .trust-item::before { width: 1px; height: 20px; margin-right: clamp(1rem, 3vw, 3rem); content: ""; background: var(--line-strong); }
+  .trust-item.accent svg { color: var(--accent); }
+  @media (max-width: 767px) {
+    .trust-inner { min-height: 112px; flex-wrap: wrap; gap: .6rem 1rem; padding-block: 1.25rem; }
+    .trust-item { flex: 1 1 auto; justify-content: center; font-size: .95rem; }
+    .trust-item small { display: none; }
+    .trust-item + .trust-item::before { display: none; }
+  }
+</style>

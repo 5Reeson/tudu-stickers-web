@@ -1,0 +1,10 @@
+---
+const year = new Date().getFullYear();
+---
+<footer id="about" class="site-footer"><div class="page-shell footer-inner"><div><a class="footer-brand" href="#top">图渡</a><p>让中文互联网的表情，在更多聊天里自然出现。</p></div><nav aria-label="页脚导航"><a href="#workflow">功能</a><a href="#security">安全</a><a href="#faq">使用须知</a></nav><small>© {year} 图渡</small></div></footer>
+<style>
+  .site-footer { padding-block: 1rem 3rem; } .footer-inner { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 2rem; padding-top: 2rem; border-top: 1px solid var(--line); }
+  .footer-brand { font-size: 1.35rem; font-weight: 850; text-decoration: none; } .site-footer p { margin: .65rem 0 0; color: var(--muted); }
+  .site-footer nav { display: flex; gap: 1.5rem; } .site-footer nav a { font-weight: 650; text-decoration: none; } .site-footer small { grid-column: 1 / -1; color: var(--muted); }
+  @media (max-width: 640px) { .footer-inner { grid-template-columns: minmax(0, 1fr); align-items: start; } }
+</style>
