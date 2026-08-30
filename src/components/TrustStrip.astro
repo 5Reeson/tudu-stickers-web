@@ -1,31 +1,64 @@
 ---
 import { Icon } from "astro-icon/components";
-const trustItems = [
-  { icon: "ph:shield-check", label: "本地处理", description: "所有数据仅在你的设备上处理", accent: true },
-  { icon: "ph:lock-key", label: "不上传素材", description: "不上传、不同步，不触碰你的数据" },
-  { icon: "ph:desktop", label: "macOS", description: "专为 macOS 设计，原生体验" },
+
+const highlights = [
+  {
+    icon: "ph:shield-check",
+    title: "数据安全",
+    description: "图片本地处理，隐私保证",
+  },
+  {
+    icon: "ph:arrows-left-right",
+    title: "一键迁移",
+    description: "连接不同应用，丝滑流转",
+  },
+  {
+    icon: "ph:github-logo",
+    title: "持续迭代",
+    description: "Github 开源，欢迎 issue",
+  },
 ];
 ---
-<section class="trust-strip" aria-label="产品信任信息">
-  <div class="page-shell trust-inner">
-    <img class="note-paper" src="/design/trust-note-paper-transparent.png" alt="" aria-hidden="true" />
-    {trustItems.map((item) => <div class:list={["trust-item", { accent: item.accent }]}><Icon name={item.icon} size={27} aria-hidden="true" /><span><strong>{item.label}</strong><small>{item.description}</small></span></div>)}
+
+<section class="highlights" aria-label="产品亮点">
+  <div class="page-shell highlight-grid">
+    {highlights.map((item, index) => (
+      <article class={`highlight-card highlight-card-${index + 1}`}>
+        <span class="highlight-icon" aria-hidden="true">
+          <Icon name={item.icon} size={34} />
+        </span>
+        <div>
+          <h2>{item.title}</h2>
+          <p>{item.description}</p>
+        </div>
+      </article>
+    ))}
   </div>
 </section>
+
 <style>
-  .trust-strip { position: relative; }
-  .trust-inner { position: relative; display: flex; min-height: 88px; align-items: center; justify-content: center; gap: clamp(2rem, 6vw, 6rem); overflow: hidden; }
-  .note-paper { position: absolute; z-index: 0; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; pointer-events: none; user-select: none; }
-  .trust-item { position: relative; z-index: 1; display: inline-flex; min-width: max-content; align-items: center; gap: .65rem; font-size: 1rem; font-weight: 700; }
-  .trust-item span { display: grid; gap: .18rem; }
-  .trust-item strong { font: inherit; }
-  .trust-item small { color: var(--muted); font-size: .72rem; font-weight: 520; line-height: 1.25; }
-  .trust-item + .trust-item::before { width: 1px; height: 20px; margin-right: clamp(1rem, 3vw, 3rem); content: ""; background: var(--line-strong); }
-  .trust-item.accent svg { color: var(--accent); }
-  @media (max-width: 767px) {
-    .trust-inner { min-height: 112px; flex-wrap: wrap; gap: .6rem 1rem; padding-block: 1.25rem; }
-    .trust-item { flex: 1 1 auto; justify-content: center; font-size: .95rem; }
-    .trust-item small { display: none; }
-    .trust-item + .trust-item::before { display: none; }
+  .highlights { position: relative; padding-block: clamp(1.25rem, 2.7vw, 2.5rem) clamp(2.8rem, 5.4vw, 5.8rem); }
+  .highlight-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: center; gap: clamp(1rem, 2.4vw, 2.3rem); }
+  .highlight-card { display: grid; width: min(100%, 20.5rem); min-height: 6.25rem; grid-template-columns: auto 1fr; align-items: center; justify-self: center; gap: .7rem; padding: clamp(.7rem, 1.1vw, .9rem); border: 3px solid var(--ink); border-radius: 16px; color: var(--ink); background: var(--highlight-fill); box-shadow: 5px 6px 0 var(--ink); transform: rotate(var(--tilt)); transition: transform 180ms cubic-bezier(.16, 1, .3, 1), box-shadow 180ms ease; }
+  .highlight-card:hover { box-shadow: 9px 10px 0 var(--ink); transform: translateY(-3px) rotate(calc(var(--tilt) * .45)); }
+  .highlight-card-1 { --tilt: -2.2deg; }
+  .highlight-card-2 { --tilt: 1.4deg; background: var(--highlight-fill-soft); }
+  .highlight-card-3 { --tilt: -1deg; }
+  .highlight-icon { display: grid; width: 2.55rem; height: 2.55rem; place-items: center; transform: rotate(calc(var(--tilt) * -1.4)); }
+  .highlight-icon :global(svg) { stroke-width: 1.9; }
+  .highlight-card h2 { width: fit-content; margin: 0; font-size: clamp(1.05rem, 1.35vw, 1.32rem); line-height: 1.1; letter-spacing: -.045em; }
+  .highlight-card h2::after { display: block; width: 104%; height: 3px; margin-top: .3rem; content: ""; border-radius: 99px; background: var(--accent); transform: rotate(-1.5deg); }
+  .highlight-card p { max-width: 18rem; margin: .45rem 0 0; color: var(--ink-soft); font-size: clamp(.94rem, 1.03vw, 1rem); line-height: 1.45; }
+  @media (max-width: 900px) {
+    .highlight-grid { grid-template-columns: minmax(0, 1fr); gap: 1.15rem; }
+    .highlight-card { min-height: 0; transform: rotate(var(--mobile-tilt)); }
+    .highlight-card-1 { --mobile-tilt: -1deg; }
+    .highlight-card-2 { --mobile-tilt: .8deg; }
+    .highlight-card-3 { --mobile-tilt: -.6deg; }
+  }
+  @media (max-width: 520px) {
+    .highlights { padding-top: .9rem; }
+    .highlight-card { width: min(100%, 20.5rem); padding: .75rem; box-shadow: 4px 5px 0 var(--ink); }
+    .highlight-icon { width: 2.35rem; height: 2.35rem; }
   }
 </style>

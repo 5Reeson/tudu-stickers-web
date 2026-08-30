@@ -3,20 +3,23 @@ import { Icon } from "astro-icon/components";
 ---
 <section class="details-section section-block" aria-labelledby="details-title">
   <div class="page-shell">
-    <div class="details-heading"><h2 id="details-title" class="section-title">一套自己的梗图工作流</h2><p class="body-copy">从散落的收藏，到随时可用的素材库。每一步都保留原文件，也保留你的整理方式。</p></div>
+    <div class="details-heading"><h2 id="details-title" class="section-title"><span>一套自己的</span><span>表情包工作流</span></h2><p class="body-copy">从散落的收藏，到随时可用的素材库。每一步都保留原文件，也保留你的整理方式。</p></div>
     <div class="details-grid">
-      <article class="detail-import"><Icon name="ph:wechat-logo" size={42} aria-hidden="true" /><h3>微信收藏，直接接进来</h3><p>按来源导入，先预览再决定要留下哪些表情。</p><div class="file-pile" aria-hidden="true"><span>GIF</span><span>PNG</span><span>WEBP</span></div></article>
-      <article class="detail-organize"><Icon name="ph:stack" size={42} aria-hidden="true" /><h3>按你的方式分组</h3><p>给素材命名、收藏和归档，不再靠记忆翻聊天记录。</p></article>
-      <article class="detail-export"><Icon name="ph:paper-plane-tilt" size={42} aria-hidden="true" /><h3>导出后继续聊</h3><p>发送到目标应用，或保存为清晰的本地文件。</p></article>
+      <article class="detail-import"><Icon name="ph:wechat-logo" size={42} aria-hidden="true" /><h3><span>微信收藏，</span><span>直接接进来</span></h3><p>按来源导入，先预览再决定要留下哪些表情。</p><div class="file-pile" aria-hidden="true"><span>GIF</span><span>PNG</span><span>WEBP</span></div></article>
+      <article class="detail-organize"><Icon name="ph:stack" size={42} aria-hidden="true" /><h3><span>按你的方式</span><span>分组收藏</span></h3><p>给素材命名、收藏和归档，不再靠记忆翻聊天记录。</p></article>
+      <article class="detail-export"><Icon name="ph:paper-plane-tilt" size={42} aria-hidden="true" /><h3><span>导出之后</span><span>继续聊天</span></h3><p>发送到目标应用，或保存为清晰的本地文件。</p></article>
     </div>
   </div>
 </section>
 <style>
-  .details-section { border-block: 1px solid var(--line); background: color-mix(in srgb, var(--paper-soft) 65%, transparent); }
+  .details-section { border-block: 1px solid var(--line); background: transparent; }
   .details-heading { display: grid; gap: 1.5rem; margin-bottom: clamp(2.5rem, 5vw, 4.5rem); }
+  .details-heading .section-title span { display: block; }
+  .details-heading .body-copy { margin: 0; }
   .details-grid { display: grid; grid-template-columns: 1.35fr .65fr; grid-template-rows: repeat(2, minmax(15rem, auto)); gap: 1rem; }
   .details-grid article { position: relative; overflow: hidden; padding: clamp(1.5rem, 3vw, 2.8rem); border: 1px solid var(--line); border-radius: var(--radius-panel); background: var(--paper-raised); }
-  .details-grid h3 { max-width: 12ch; margin: 1.5rem 0 .7rem; font-size: clamp(1.6rem, 2.6vw, 2.6rem); line-height: 1.12; letter-spacing: -.055em; }
+  .details-grid h3 { max-width: 12ch; margin: 1.5rem 0 .7rem; font-size: clamp(1.6rem, 2.6vw, 2.6rem); line-height: 1.12; letter-spacing: -.055em; text-wrap: balance; }
+  .details-grid h3 span { display: block; }
   .details-grid p { max-width: 27rem; margin: 0; color: var(--ink-soft); line-height: 1.7; }
   .detail-import { grid-row: 1 / 3; min-height: 32rem; background: radial-gradient(circle at 84% 20%, rgb(22 163 74 / 15%), transparent 18rem), var(--paper-raised) !important; }
   .detail-organize { background: radial-gradient(circle, rgb(23 23 23 / 14%) 0 1px, transparent 1.5px) 0 0 / 11px 11px, var(--accent-soft) !important; }

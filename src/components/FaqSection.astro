@@ -1,13 +1,14 @@
 ---
 const faqs = [
   { question: "素材会上传到服务器吗？", answer: "不会。导入、整理与导出都在你的 Mac 上完成，素材不会被上传、分析或留存在云端。" },
+  { question: "支持哪些图片格式？", answer: "GIF、PNG、JPG、WebP。" },
   { question: "现在支持哪些来源？", answer: "首版围绕微信与本机文件导入。更多来源会在完成真实适配与测试后公布。" },
-  { question: "什么时候可以下载？", answer: "安装包完成签名、公证与基础兼容性测试后开放。当前页面先用于确认官网与产品信息。" },
+  { question: "应该下载哪个安装包？", answer: "Apple silicon 适用于 M 系列芯片，Intel 适用于 Intel 芯片。下载区会尝试给出推荐，你也可以手动切换。" },
   { question: "Windows 可以使用吗？", answer: "目前只规划 macOS 版本。Windows 版本尚无确认时间。" },
 ];
 ---
 <section id="faq" class="faq section-block" aria-labelledby="faq-title">
-  <div class="page-shell faq-grid"><div><h2 id="faq-title" class="section-title">使用前，先了解这些</h2><p class="body-copy">没有模糊承诺，也不填虚构版本号。当前信息会随着真实发布进度更新。</p></div><div class="faq-list">{faqs.map((faq, index) => <details open={index === 0}><summary>{faq.question}</summary><p>{faq.answer}</p></details>)}</div></div>
+  <div class="page-shell faq-grid"><div><h2 id="faq-title" class="section-title"><span>使用之前</span><span>先了解这些</span></h2><p class="body-copy">关于素材安全、系统支持和下载版本，答案都写在这里。</p></div><div class="faq-list">{faqs.map((faq, index) => <details open={index === 0}><summary>{faq.question}</summary><p>{faq.answer}</p></details>)}</div></div>
 </section>
 <style>
   .faq-grid { display: grid; grid-template-columns: minmax(18rem, .8fr) minmax(0, 1.2fr); gap: clamp(3rem, 9vw, 9rem); }

@@ -1,4 +1,5 @@
 ---
+import { css as displayFont } from "@/assets/fonts/smiley-sans/SmileySans-Oblique.ttf?subsets";
 import "@/styles/global.css";
 
 interface Props {
@@ -24,12 +25,13 @@ const softwareApplication = {
   applicationCategory: "UtilitiesApplication",
   operatingSystem: "macOS",
   description,
-  offers: { "@type": "Offer", availability: "https://schema.org/PreOrder" },
+  offers: { "@type": "Offer", availability: "https://schema.org/InStock" },
 };
+const displayFontStack = `"${displayFont.family}", "PingFang SC", "Noto Sans CJK SC", "Microsoft YaHei", system-ui, sans-serif`;
 ---
 
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-CN" style={`--font-display: ${displayFontStack};`}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />

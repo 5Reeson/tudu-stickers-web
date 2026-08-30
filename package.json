@@ -26,6 +26,17 @@
     "@types/node": "latest",
     "tailwindcss": "latest",
     "typescript": "^6.0.0",
+    "vite-plugin-font": "5.1.2",
     "wrangler": "latest"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "cn-font-split",
+      "koffi",
+      "protobufjs"
+    ],
+    "patchedDependencies": {
+      "vite-plugin-font@5.1.2": "patches/vite-plugin-font@5.1.2.patch"
+    }
   }
 }

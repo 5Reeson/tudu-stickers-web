@@ -1,19 +1,139 @@
 ---
 import { Icon } from "astro-icon/components";
+
+type Architecture = "arm64" | "x64";
+
+const downloads: Record<Architecture, { label: string; detail: string; url: string }> = {
+  // Replace these two paths with the final release URLs when ready.
+  arm64: { label: "Apple silicon", detail: "M 系列芯片 · ARM64", url: "/downloads/tudu-arm64.dmg" },
+  x64: { label: "Intel", detail: "Intel 芯片 · x86_64", url: "/downloads/tudu-x86_64.dmg" },
+};
 ---
-<section id="download" class="download section-block" aria-labelledby="download-title"><div class="page-shell"><div class="download-panel">
-  <div><h2 id="download-title">让每一张梗图，都去到它该在的聊天</h2><p>macOS 安装包将在签名、公证和兼容性测试完成后开放。</p></div>
-  <button class="button-primary" type="button" disabled aria-describedby="download-status"><Icon name="ph:download-simple" size={23} aria-hidden="true" />下载 macOS 版</button><span id="download-status" class="download-status">暂未开放下载</span>
-</div></div></section>
+<section id="download" class="download section-block" aria-labelledby="download-title">
+  <div class="page-shell">
+    <div class="download-panel">
+      <div class="download-copy">
+        <h2 id="download-title"><span>让表情包，</span><span>和你一起渡洋出海</span></h2>
+        <p>选择适合你这台 Mac 的图渡安装包。</p>
+      </div>
+
+      <div class="download-controls">
+        <fieldset class="architecture-fieldset">
+          <legend>选择芯片版本</legend>
+          <div class="architecture-options">
+            {Object.entries(downloads).map(([id, option], index) => (
+              <label class="architecture-option">
+                <input type="radio" name="architecture" value={id} data-download-url={option.url} checked={index === 0} />
+                <span class="architecture-option-copy">
+                  <strong>{option.label}</strong>
+                  <small>{option.detail}</small>
+                </span>
+                <span class="architecture-recommendation" data-recommendation={id} hidden={index !== 0}>推荐</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+        <a class="button-primary download-button download-type" data-download-link href={downloads.arm64.url} aria-describedby="download-status">
+          <Icon name="ph:download-simple" size={23} aria-hidden="true" />下载 macOS 版
+        </a>
+        <p id="download-status" class="download-status" role="status">默认推荐 Apple silicon，也可以手动切换。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  type Architecture = "arm64" | "x64";
+  type UserAgentData = {
+    getHighEntropyValues?: (hints: string[]) => Promise<{ architecture?: string }>;
+  };
+
+  const downloadLabels: Record<Architecture, string> = {
+    arm64: "Apple silicon",
+    x64: "Intel",
+  };
+  const link = document.querySelector<HTMLAnchorElement>("[data-download-link]");
+  const status = document.querySelector<HTMLElement>("#download-status");
+  const inputs = Array.from(document.querySelectorAll<HTMLInputElement>('input[name="architecture"]'));
+  const recommendationLabels = Array.from(document.querySelectorAll<HTMLElement>("[data-recommendation]"));
+
+  function updateDownload(architecture: Architecture, message: string) {
+    const input = inputs.find((candidate) => candidate.value === architecture);
+    if (input) input.checked = true;
+    if (link) {
+      link.href = input?.dataset.downloadUrl ?? "#";
+      link.setAttribute("aria-label", `下载 ${downloadLabels[architecture]} 版 macOS 安装包`);
+    }
+    if (status) status.textContent = message;
+  }
+
+  function setRecommendation(architecture: Architecture) {
+    recommendationLabels.forEach((label) => {
+      label.hidden = label.dataset.recommendation !== architecture;
+    });
+  }
+
+  async function detectArchitecture(): Promise<{ architecture: Architecture; detected: boolean }> {
+    const userAgentData = (navigator as Navigator & { userAgentData?: UserAgentData }).userAgentData;
+    if (userAgentData?.getHighEntropyValues) {
+      try {
+        const values = await userAgentData.getHighEntropyValues(["architecture"]);
+        const architecture = values.architecture?.toLowerCase() ?? "";
+        if (architecture.includes("arm")) return { architecture: "arm64", detected: true };
+        if (architecture.includes("x86") || architecture.includes("x64")) return { architecture: "x64", detected: true };
+      } catch {
+        // Keep the safe default when the browser declines the hint.
+      }
+    }
+
+    const userAgent = navigator.userAgent.toLowerCase();
+    if (userAgent.includes("arm64") || userAgent.includes("aarch64")) return { architecture: "arm64", detected: true };
+    if (userAgent.includes("x86_64") || userAgent.includes("x64")) return { architecture: "x64", detected: true };
+    return { architecture: "arm64", detected: false };
+  }
+
+  inputs.forEach((input) => {
+    input.addEventListener("change", () => {
+      if (input.checked) {
+        const architecture = input.value as Architecture;
+        updateDownload(architecture, `已选择 ${downloadLabels[architecture]} 版本。`);
+      }
+    });
+  });
+
+  detectArchitecture().then(({ architecture, detected }) => {
+    setRecommendation(architecture);
+    updateDownload(
+      architecture,
+      detected
+        ? `已根据浏览器环境推荐 ${downloadLabels[architecture]}，也可以手动切换。`
+        : "无法从浏览器确认芯片，默认推荐 Apple silicon。也可以手动切换。",
+    );
+  });
+</script>
 <style>
   .download { padding-top: 1rem; }
-  .download-panel { position: relative; display: grid; min-height: 25rem; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 2rem; overflow: hidden; padding: clamp(2rem, 6vw, 5.5rem); border-radius: var(--radius-paper); color: var(--paper-raised); background: radial-gradient(circle at 82% 15%, rgb(22 163 74 / 78%), transparent 24rem), var(--ink); }
-  .download-panel::after { position: absolute; top: 12%; right: -5%; width: 26%; aspect-ratio: 1; content: ""; opacity: .35; background: radial-gradient(circle, white 0 1.5px, transparent 1.8px) 0 0 / 11px 11px; transform: rotate(8deg); }
+  .download-panel { position: relative; display: grid; min-height: 25rem; grid-template-columns: minmax(0, 1fr) minmax(19rem, .72fr); align-items: center; gap: clamp(2rem, 5vw, 5rem); overflow: hidden; padding: clamp(2rem, 6vw, 5.5rem); border: 3px solid var(--ink); border-radius: var(--radius-paper); color: var(--ink); background: linear-gradient(90deg, #fffaf0 0%, #fff6df 45%, #fdecb6 100%); box-shadow: 0 10px 0 var(--ink); }
+  .download-panel::after { position: absolute; top: 10%; right: -5%; width: 26%; aspect-ratio: 1; content: ""; opacity: .22; background: radial-gradient(circle, #2f7f4e 0 1.5px, transparent 1.8px) 0 0 / 11px 11px; transform: rotate(8deg); }
   .download-panel > * { position: relative; z-index: 1; }
-  .download h2 { max-width: 16ch; margin: 0; font-size: clamp(2.4rem, 5vw, 5.3rem); line-height: 1.07; letter-spacing: -.065em; }
-  .download p { margin: 1.25rem 0 0; color: rgb(255 255 255 / 78%); line-height: 1.7; }
-  .download .button-primary { border-color: var(--paper-raised); color: var(--ink); background: var(--paper-raised); box-shadow: none; }
-  .download .button-primary:disabled { cursor: not-allowed; opacity: .68; }
-  .download-status { position: absolute; right: clamp(2rem, 6vw, 5.5rem); bottom: clamp(1rem, 2vw, 2.2rem); color: rgb(255 255 255 / 68%); font-size: .82rem; }
-  @media (max-width: 720px) { .download-panel { min-height: 30rem; grid-template-columns: minmax(0, 1fr); align-content: end; } .download .button-primary { width: 100%; } .download-status { position: static; text-align: center; } }
+  .download-copy h2 { margin: 0; font-size: clamp(2.4rem, 5vw, 5.3rem); line-height: 1.07; letter-spacing: -.065em; text-wrap: balance; }
+  .download-copy h2 span { display: block; }
+  .download-copy p { max-width: 28rem; margin: 1.25rem 0 0; color: #514c40; line-height: 1.7; }
+  .download-controls { display: grid; gap: 1rem; }
+  .architecture-fieldset { min-width: 0; margin: 0; padding: 0; border: 0; }
+  .architecture-fieldset legend { margin-bottom: .7rem; color: #514c40; font-size: .88rem; font-weight: 700; }
+  .architecture-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .7rem; }
+  .architecture-option { position: relative; display: grid; min-height: 6rem; align-content: center; gap: .3rem; padding: .9rem; border: 2px solid rgb(23 23 23 / 34%); border-radius: var(--radius-control); color: var(--ink); background: rgb(255 254 251 / 74%); cursor: pointer; transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1), background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease; }
+  .architecture-option:hover { border-color: rgb(23 23 23 / 64%); background: #fffaf0; transform: translateY(-2px) rotate(-.25deg); }
+  .architecture-option:has(input:checked) { border-color: var(--ink); background: #fff0bd; box-shadow: 3px 4px 0 var(--ink); }
+  .architecture-option input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+  .architecture-option input:focus-visible + .architecture-option-copy { outline: 3px solid color-mix(in srgb, var(--focus) 70%, white); outline-offset: 4px; }
+  .architecture-option-copy { display: grid; gap: .25rem; }
+  .architecture-option strong { font-size: 1rem; }
+  .architecture-option small { color: #5d574b; font-size: .76rem; }
+  .architecture-recommendation { width: fit-content; padding: .2rem .45rem; border: 1px solid #5b8b68; border-radius: 999px; color: #215d36; background: #e0f0df; font-size: .7rem; font-weight: 800; }
+  .download-button { width: 100%; }
+  .download-status { margin: 0; color: #625b4e; font-size: .82rem; line-height: 1.5; }
+  @media (max-width: 720px) { .download-panel { min-height: 32rem; grid-template-columns: minmax(0, 1fr); align-content: end; } .download-controls { width: 100%; } }
+  @media (max-width: 420px) { .architecture-options { grid-template-columns: minmax(0, 1fr); } }
 </style>

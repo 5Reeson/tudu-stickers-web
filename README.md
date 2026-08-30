@@ -54,5 +54,5 @@ See [ASSET_MANIFEST.md](./ASSET_MANIFEST.md) for the development assets, product
 
 1. Replace `https://memes-abroad.example.com` in `astro.config.mjs` and `public/robots.txt`.
 2. Replace the temporary Open Graph image and favicon.
-3. Point the download action to a signed and notarized DMG stored outside this Git repository.
+3. Replace the two placeholder download paths in `src/components/DownloadCta.astro` with signed and notarized DMG URLs.
 4. Confirm final macOS requirements, version number and release date before adding them to the site.

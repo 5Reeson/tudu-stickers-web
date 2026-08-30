@@ -1,48 +1,140 @@
 ---
 import { Icon } from "astro-icon/components";
+import importStep from "@/assets/app-screenshots/import-step-temporary.png";
+import connectStep from "@/assets/app-screenshots/connect-step-generated.png";
+import organizeStep from "@/assets/app-screenshots/organize-step-generated.png";
+import exportStep from "@/assets/app-screenshots/export-step-generated.png";
+
 const steps = [
-  { icon: "ph:folder-simple-plus", title: "导入", body: "从微信或本机导入，支持单条或批量文件。" },
-  { icon: "ph:plugs-connected", title: "连接", body: "连接到 WhatsApp 等应用，让表情自然出海。" },
-  { icon: "ph:tag", title: "整理", body: "分组收藏，统一命名，建立自己的梗图库。" },
-  { icon: "ph:export", title: "导出", body: "一键导出到目标应用，也可保存到本地。" },
+  { icon: "ph:folder-simple-plus", title: "导入", body: "从微信或本机导入，支持单个或批量操作。", image: importStep.src, alt: "图渡的微信与本机表情导入界面" },
+  { icon: "ph:plugs-connected", title: "连接", body: "连接到 WhatsApp 等应用，无缝完成表情包出海。", image: connectStep.src, alt: "图渡连接微信与 WhatsApp 的界面" },
+  { icon: "ph:tag", title: "整理", body: "分组收藏，统一命名，建立自己的表情包素材库。", image: organizeStep.src, alt: "图渡整理与分组表情素材的界面" },
+  { icon: "ph:export", title: "导出", body: "一键导出到目标应用，也可保存到本地路径。", image: exportStep.src, alt: "图渡导出表情到 WhatsApp 或本地的界面" },
 ];
 ---
+
 <section id="workflow" class="workflow" aria-labelledby="workflow-title">
-  <div class="page-shell workflow-shell"><h2 id="workflow-title" class="visually-hidden">使用流程</h2><div class="workflow-grid">
-    {steps.map((step, index) => <>
-      <article class="workflow-step"><span class="step-index">0{index + 1}</span><span class="step-icon-stack" aria-hidden="true"><Icon class="step-icon step-icon-echo" name={step.icon} size={64} /><Icon class="step-icon" name={step.icon} size={64} /></span><div><h3>{step.title}</h3><p>{step.body}</p></div></article>
-      {index < steps.length - 1 && <Icon class="flow-arrow" name="ph:arrow-right" size={34} aria-hidden="true" />}
-    </>)}
-  </div></div>
+  <div class="page-shell workflow-shell">
+    <header class="workflow-heading">
+      <h2 id="workflow-title" class="section-title">导出表情包，<br />仅需四步</h2>
+      <p>点击右侧步骤，看看图渡如何从导入一路走到导出。</p>
+    </header>
+
+    <div class="workflow-layout">
+      <figure class="workflow-preview" aria-live="polite">
+        <div class="preview-paper" data-preview-stage>
+          {steps.map((step, index) => (
+            <img
+              class:list={["preview-image", { active: index === 0 }]}
+              src={step.image}
+              alt={step.alt}
+              width="1536"
+              height="1024"
+              loading={index === 0 ? "eager" : "lazy"}
+              data-preview-image={index}
+            />
+          ))}
+        </div>
+        <figcaption data-preview-caption>01 / 导入</figcaption>
+      </figure>
+
+      <div class="workflow-tabs" role="tablist" aria-label="图渡使用步骤">
+        {steps.map((step, index) => (
+          <button
+            class:list={["workflow-tab", { active: index === 0 }]}
+            type="button"
+            role="tab"
+            aria-selected={index === 0 ? "true" : "false"}
+            tabindex={index === 0 ? "0" : "-1"}
+            data-step-tab={index}
+          >
+            <span class="step-number">0{index + 1}</span>
+            <span class="step-icon" aria-hidden="true"><Icon name={step.icon} size={31} /></span>
+            <span class="step-copy"><strong>{step.title}</strong><small>{step.body}</small></span>
+            <Icon class="step-arrow" name="ph:arrow-right" size={25} aria-hidden="true" />
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>
 </section>
+
+<script>
+  const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-step-tab]"));
+  const images = Array.from(document.querySelectorAll<HTMLImageElement>("[data-preview-image]"));
+  const caption = document.querySelector<HTMLElement>("[data-preview-caption]");
+
+  function selectStep(index: number, focus = false) {
+    tabs.forEach((tab, tabIndex) => {
+      const active = tabIndex === index;
+      tab.classList.toggle("active", active);
+      tab.setAttribute("aria-selected", String(active));
+      tab.tabIndex = active ? 0 : -1;
+      if (active && focus) tab.focus();
+    });
+
+    images.forEach((image, imageIndex) => image.classList.toggle("active", imageIndex === index));
+    if (caption) caption.textContent = `0${index + 1} / ${tabs[index]?.querySelector("strong")?.textContent ?? ""}`;
+  }
+
+  tabs.forEach((tab, index) => {
+    tab.addEventListener("click", () => selectStep(index));
+    tab.addEventListener("keydown", (event) => {
+      if (!["ArrowDown", "ArrowUp", "ArrowRight", "ArrowLeft", "Home", "End"].includes(event.key)) return;
+      event.preventDefault();
+      const last = tabs.length - 1;
+      const next = event.key === "Home" ? 0 : event.key === "End" ? last : ["ArrowDown", "ArrowRight"].includes(event.key) ? (index + 1) % tabs.length : (index - 1 + tabs.length) % tabs.length;
+      selectStep(next, true);
+    });
+  });
+</script>
+
 <style>
   .workflow { position: relative; border-bottom: 1px solid var(--line); }
-  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
-  .workflow-shell { padding-block: clamp(2.25rem, 4vw, 4.5rem); }
-  .workflow-grid { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; }
-  .workflow-step { position: relative; display: grid; min-width: 0; min-height: 250px; grid-template-rows: auto auto 1fr; align-content: start; justify-items: start; padding: 1rem clamp(.85rem, 1.7vw, 1.55rem); }
-  .workflow-step::after { position: absolute; right: 8%; bottom: .45rem; left: 8%; height: 1px; content: ""; border-bottom: 1px dashed color-mix(in srgb, var(--ink) 34%, transparent); transform: rotate(var(--rule-tilt, -.5deg)); }
-  .workflow-step:nth-of-type(even) { --rule-tilt: .65deg; }
-  .step-index { color: var(--accent); font-family: ui-monospace, "SFMono-Regular", Consolas, monospace; font-size: clamp(2.2rem, 3.6vw, 3.7rem); font-weight: 900; line-height: .9; letter-spacing: -.11em; transform: rotate(-2deg); }
-  .step-icon-stack { position: relative; display: grid; width: 64px; height: 64px; margin: .95rem 0 .8rem; place-items: center; }
-  .step-icon { grid-area: 1 / 1; stroke-width: 1.4; transform: rotate(var(--icon-tilt, -2deg)); }
-  .step-icon-echo { opacity: .16; transform: translate(2px, -1px) rotate(var(--icon-tilt, -2deg)); }
-  .workflow-step:nth-of-type(even) .step-icon { --icon-tilt: 2deg; }
-  .workflow-step h3 { width: fit-content; margin: 0 0 .55rem; font-size: 1.4rem; line-height: 1.1; letter-spacing: -.04em; text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 3px; text-underline-offset: 7px; }
-  .workflow-step p { max-width: 15rem; margin: 0; color: var(--ink-soft); font-size: .94rem; line-height: 1.62; }
-  .flow-arrow { color: var(--accent); transform: rotate(var(--arrow-tilt, -5deg)); }
-  .flow-arrow:nth-of-type(even) { --arrow-tilt: 5deg; }
-  @media (max-width: 1023px) {
-    .workflow-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
-    .workflow-step { min-height: 230px; border-bottom: 1px dashed var(--line-strong); }
-    .flow-arrow { display: none; }
+  .workflow-shell { padding-block: clamp(4rem, 7vw, 7rem); }
+  .workflow-heading { margin-bottom: clamp(2.4rem, 4.6vw, 4.5rem); }
+  .workflow-heading .section-title { max-width: 11ch; }
+  .workflow-heading p { max-width: 35rem; margin: 1rem 0 0; color: var(--ink-soft); font-size: clamp(1rem, 1.35vw, 1.15rem); line-height: 1.65; }
+  .workflow-layout { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(21rem, .85fr); align-items: center; gap: clamp(2.3rem, 6vw, 6rem); }
+  .workflow-preview { min-width: 0; margin: 0; transform: rotate(-1.2deg); }
+  .preview-paper { position: relative; aspect-ratio: 3 / 2; overflow: hidden; border: 3px solid var(--ink); border-radius: 18px; background: #101112; box-shadow: 11px 12px 0 var(--ink); }
+  .preview-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: translate3d(2.5%, 0, 0) scale(1.018); transition: opacity 260ms ease, transform 430ms cubic-bezier(.16, 1, .3, 1); }
+  .preview-image.active { z-index: 1; opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+  .workflow-preview figcaption { width: fit-content; margin: .85rem 0 0 1rem; padding: .3rem .65rem; border: 2px solid var(--ink); border-radius: 8px; color: var(--ink); background: var(--paper-raised); box-shadow: 3px 3px 0 var(--ink); font-family: ui-monospace, "SFMono-Regular", Consolas, monospace; font-size: .78rem; font-weight: 800; transform: rotate(1.5deg); }
+  .workflow-tabs { display: grid; gap: .95rem; }
+  .workflow-tab { display: grid; width: 100%; grid-template-columns: auto auto 1fr auto; align-items: center; gap: .9rem; padding: 1rem 1.05rem; border: 2px solid var(--ink); border-radius: 14px; color: var(--ink); background: color-mix(in srgb, var(--paper-raised) 92%, transparent); box-shadow: 4px 5px 0 rgb(23 23 23 / 20%); cursor: pointer; text-align: left; transform: rotate(var(--tilt, 0deg)); transition: transform 180ms cubic-bezier(.16, 1, .3, 1), background-color 180ms ease, box-shadow 180ms ease; }
+  .workflow-tab:nth-child(1) { --tilt: -.5deg; }
+  .workflow-tab:nth-child(2) { --tilt: .65deg; }
+  .workflow-tab:nth-child(3) { --tilt: -.35deg; }
+  .workflow-tab:nth-child(4) { --tilt: .45deg; }
+  .workflow-tab:hover { background: color-mix(in srgb, var(--cta-fill) 34%, var(--paper-raised)); transform: translateX(-4px) rotate(var(--tilt)); }
+  .workflow-tab:active { box-shadow: 1px 2px 0 var(--ink); transform: translate(2px, 3px) rotate(var(--tilt)); }
+  .workflow-tab.active { background: var(--cta-fill); box-shadow: 7px 7px 0 var(--ink); transform: translateX(-7px) rotate(var(--tilt)); }
+  .step-number { color: var(--accent-strong); font-family: ui-monospace, "SFMono-Regular", Consolas, monospace; font-size: 1.35rem; font-weight: 950; letter-spacing: -.08em; }
+  .step-icon { display: grid; width: 2.65rem; height: 2.65rem; place-items: center; }
+  .step-icon :global(svg) { stroke-width: 1.8; }
+  .step-copy { display: grid; gap: .28rem; }
+  .step-copy strong { width: fit-content; font-size: 1.12rem; line-height: 1.1; }
+  .step-copy small { max-width: 24rem; color: var(--ink-soft); font-size: .82rem; line-height: 1.48; }
+  .step-arrow { color: var(--accent-strong); transition: transform 180ms cubic-bezier(.16, 1, .3, 1); }
+  .workflow-tab.active .step-arrow { transform: translateX(3px) rotate(-5deg); }
+  @media (max-width: 900px) {
+    .workflow-layout { grid-template-columns: minmax(0, 1fr); gap: 2.8rem; }
+    .workflow-preview { width: min(100%, 43rem); margin-inline: auto; }
+    .workflow-tabs { width: min(100%, 43rem); margin-inline: auto; }
   }
   @media (max-width: 560px) {
-    .workflow-shell { padding-block: 2rem 3rem; }
-    .workflow-grid { grid-template-columns: minmax(0, 1fr); }
-    .workflow-step { min-height: 0; grid-template-columns: auto 1fr; grid-template-rows: auto auto; column-gap: 1.15rem; padding-block: 1.35rem 1.8rem; }
-    .step-index { grid-row: 1 / span 2; font-size: 2.4rem; }
-    .step-icon-stack { grid-column: 2; margin: 0 0 .75rem; }
-    .workflow-step > div { grid-column: 2; }
+    .workflow-shell { padding-block: 3.5rem 4.5rem; }
+    .workflow-heading { margin-bottom: 2rem; }
+    .preview-paper { border-width: 2px; border-radius: 13px; box-shadow: 6px 7px 0 var(--ink); }
+    .workflow-preview figcaption { margin-left: .45rem; }
+    .workflow-tabs { gap: .8rem; }
+    .workflow-tab { grid-template-columns: auto auto 1fr; gap: .72rem; padding: .9rem; }
+    .workflow-tab.active { transform: translateX(-3px) rotate(var(--tilt)); }
+    .step-arrow { display: none; }
+    .step-copy small { font-size: .78rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .preview-image { transition: none; }
   }
 </style>

@@ -1,0 +1,189 @@
+diff --git a/dist/subset/index.js b/dist/subset/index.js
+index 15fcdeaf8cf68330f373a8dc7341686577b95360..5f1275b6b0f9e3cf1559d6eb08b0ff10ae944428 100644
+--- a/dist/subset/index.js
++++ b/dist/subset/index.js
+@@ -23,6 +23,7 @@ function chunk(arr, size = 500) {
+     return;
+   }
+ }
++const prebuildTasks = /* @__PURE__ */ new Map();
+ class BundlePlugin {
+   constructor(config, key = "default") {
+     this.config = config;
+@@ -64,6 +65,22 @@ import '${resultCSS}/result.css?t=${key}';
+   /** 重新进行预构建字体 */
+   async prebuild(filePath, mode = "full") {
+     const resolvedPath = this.getCachedPath(filePath);
++    const existingTask = prebuildTasks.get(resolvedPath);
++    if (existingTask) {
++      await existingTask;
++      return;
++    }
++    const task = this.runPrebuild(filePath, mode, resolvedPath);
++    prebuildTasks.set(resolvedPath, task);
++    try {
++      await task;
++    } finally {
++      if (prebuildTasks.get(resolvedPath) === task) {
++        prebuildTasks.delete(resolvedPath);
++      }
++    }
++  }
++  async runPrebuild(filePath, mode, resolvedPath) {
+     const isCached = await this.checkCache(resolvedPath);
+     if (!isCached && this.config.server !== false) {
+       console.log(
+@@ -71,6 +88,7 @@ import '${resultCSS}/result.css?t=${key}';
+       );
+       const FontPath = filePath.split("?")[0];
+       const onlySubset = mode !== "full";
++      await fs.ensureDir(resolvedPath);
+       await cnFontSplit.fontSplit({
+         ...this.config,
+         input: FontPath,
+@@ -83,8 +101,6 @@ import '${resultCSS}/result.css?t=${key}';
+         subsetRemainChars: !onlySubset,
+         subsets: onlySubset ? chunk(this.subsets?.flat(), this.config.subsetChunkSize) : void 0,
+         silent: true
+-      }).catch((e) => {
+-        console.error(e);
+       });
+       await this.createCSSFontFallback(FontPath, resolvedPath);
+     } else {
+@@ -93,6 +109,7 @@ import '${resultCSS}/result.css?t=${key}';
+   }
+   /** 写入 CSS 字体的 fallback 选项，减少布局抖动  */
+   async createCSSFontFallback(FontPath, resolvedPath) {
++    await fs.ensureDir(resolvedPath);
+     const hash = crypto.createHash("md5").update(FontPath).digest("hex");
+     const { fontFamilyString, css } = await cnFontMetrics.createChineseCrossPlatformFallbackCss(
+       FontPath,
+diff --git a/dist/subset/index.mjs b/dist/subset/index.mjs
+index 1c8cad9b7e0c9d5be8b7c010b0770037e4cf9079..97deee337a08891503eef08b2784031bc43ef11d 100644
+--- a/dist/subset/index.mjs
++++ b/dist/subset/index.mjs
+@@ -19,6 +19,7 @@ function chunk(arr, size = 500) {
+     return;
+   }
+ }
++const prebuildTasks = /* @__PURE__ */ new Map();
+ class BundlePlugin {
+   constructor(config, key = "default") {
+     this.config = config;
+@@ -60,6 +61,22 @@ import '${resultCSS}/result.css?t=${key}';
+   /** 重新进行预构建字体 */
+   async prebuild(filePath, mode = "full") {
+     const resolvedPath = this.getCachedPath(filePath);
++    const existingTask = prebuildTasks.get(resolvedPath);
++    if (existingTask) {
++      await existingTask;
++      return;
++    }
++    const task = this.runPrebuild(filePath, mode, resolvedPath);
++    prebuildTasks.set(resolvedPath, task);
++    try {
++      await task;
++    } finally {
++      if (prebuildTasks.get(resolvedPath) === task) {
++        prebuildTasks.delete(resolvedPath);
++      }
++    }
++  }
++  async runPrebuild(filePath, mode, resolvedPath) {
+     const isCached = await this.checkCache(resolvedPath);
+     if (!isCached && this.config.server !== false) {
+       console.log(
+@@ -67,6 +84,7 @@ import '${resultCSS}/result.css?t=${key}';
+       );
+       const FontPath = filePath.split("?")[0];
+       const onlySubset = mode !== "full";
++      await fs.ensureDir(resolvedPath);
+       await fontSplit({
+         ...this.config,
+         input: FontPath,
+@@ -79,8 +97,6 @@ import '${resultCSS}/result.css?t=${key}';
+         subsetRemainChars: !onlySubset,
+         subsets: onlySubset ? chunk(this.subsets?.flat(), this.config.subsetChunkSize) : void 0,
+         silent: true
+-      }).catch((e) => {
+-        console.error(e);
+       });
+       await this.createCSSFontFallback(FontPath, resolvedPath);
+     } else {
+@@ -89,6 +105,7 @@ import '${resultCSS}/result.css?t=${key}';
+   }
+   /** 写入 CSS 字体的 fallback 选项，减少布局抖动  */
+   async createCSSFontFallback(FontPath, resolvedPath) {
++    await fs.ensureDir(resolvedPath);
+     const hash = crypto.createHash("md5").update(FontPath).digest("hex");
+     const { fontFamilyString, css } = await createChineseCrossPlatformFallbackCss(
+       FontPath,
+diff --git a/src/subset/index.ts b/src/subset/index.ts
+index 21d790427d594c803a5542fb84ae9c589ffcc736..073b77b22047c651c91f83b3c4bb2062071c7553 100644
+--- a/src/subset/index.ts
++++ b/src/subset/index.ts
+@@ -26,6 +26,10 @@ export type BundlePluginConfig = Omit<Partial<proto.InputTemplate>, 'input' | 's
+     subsetChunkSize?: number
+ };
+ 
++// Astro can request the same font from multiple Vite environments at once.
++// Share in-flight work so concurrent loads do not overwrite the same cache dir.
++const prebuildTasks = new Map<string, Promise<void>>();
++
+ export class BundlePlugin {
+     public subsets: number[][] | undefined = undefined;
+     constructor(
+@@ -73,6 +77,28 @@ export class BundlePlugin {
+     /** 重新进行预构建字体 */
+     async prebuild(filePath: string, mode: 'full' | 'subsets' = 'full') {
+         const resolvedPath = this.getCachedPath(filePath);
++        const existingTask = prebuildTasks.get(resolvedPath);
++        if (existingTask) {
++            await existingTask;
++            return;
++        }
++
++        const task = this.runPrebuild(filePath, mode, resolvedPath);
++        prebuildTasks.set(resolvedPath, task);
++        try {
++            await task;
++        } finally {
++            if (prebuildTasks.get(resolvedPath) === task) {
++                prebuildTasks.delete(resolvedPath);
++            }
++        }
++    }
++
++    private async runPrebuild(
++        filePath: string,
++        mode: 'full' | 'subsets',
++        resolvedPath: string,
++    ) {
+         const isCached = await this.checkCache(resolvedPath);
+         if (!isCached && this.config.server !== false) {
+             console.log(
+@@ -80,6 +106,7 @@ export class BundlePlugin {
+             );
+             const FontPath = filePath.split('?')[0];
+             const onlySubset = mode !== 'full';
++            await fs.ensureDir(resolvedPath);
+             await fontSplit({
+                 ...this.config,
+                 input: FontPath,
+@@ -92,8 +119,6 @@ export class BundlePlugin {
+                 subsetRemainChars: !onlySubset,
+                 subsets: onlySubset ? chunk(this.subsets?.flat(), this.config.subsetChunkSize) : undefined,
+                 silent: true,
+-            }).catch((e) => {
+-                console.error(e);
+             });
+             await this.createCSSFontFallback(FontPath, resolvedPath);
+         } else {
+@@ -102,6 +127,7 @@ export class BundlePlugin {
+     }
+     /** 写入 CSS 字体的 fallback 选项，减少布局抖动  */
+     async createCSSFontFallback(FontPath: string, resolvedPath: string) {
++        await fs.ensureDir(resolvedPath);
+         const hash = crypto.createHash('md5').update(FontPath).digest('hex');
+         const { fontFamilyString, css } =
+             await createChineseCrossPlatformFallbackCss(

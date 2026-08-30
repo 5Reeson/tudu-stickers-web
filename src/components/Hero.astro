@@ -7,12 +7,11 @@ import HeroCollage from "./HeroCollage.astro";
   <div class="page-shell hero-grid">
     <div class="hero-copy">
       <div class="hero-title-wrap">
-        <img class="title-doodles" src="/design/hero-title-doodles.png" alt="" aria-hidden="true" />
-        <h1 id="hero-title" class="display-title">把中文梗，<br />带到每一场聊天</h1>
+        <h1 id="hero-title" class="display-title">让表情包，<br />和你一起<span class="title-emphasis"><img class="title-doodles" src="/design/hero-title-doodles.png" alt="" aria-hidden="true" /><span class="title-emphasis-text">渡洋出海</span></span></h1>
       </div>
-      <p>从微信与本机整理表情，轻松导出到 WhatsApp 或本地。素材始终由你掌控。</p>
+      <p>把微信表情包轻松导出到 WhatsApp 或存到本地。图片本地处理，隐私始终由你掌握。</p>
       <div class="hero-actions">
-        <a class="button-primary" href="#download"><Icon name="ph:download-simple" size={24} aria-hidden="true" />下载 macOS 版</a>
+        <a class="button-primary download-type" href="#download"><Icon name="ph:download-simple" size={24} aria-hidden="true" />下载 macOS 版</a>
         <a class="button-secondary" href="#faq">查看使用须知<Icon name="ph:arrow-right" size={22} aria-hidden="true" /></a>
       </div>
     </div>
@@ -26,16 +25,20 @@ import HeroCollage from "./HeroCollage.astro";
   .hero-copy { position: relative; z-index: 9; padding-bottom: 1rem; }
   .hero-title-wrap { position: relative; isolation: isolate; width: fit-content; }
   .hero-title-wrap h1 { position: relative; z-index: 1; }
-  .title-doodles { position: absolute; z-index: 0; top: -16%; left: -6%; width: 112%; height: 72%; max-width: none; object-fit: fill; pointer-events: none; user-select: none; }
+  .hero-title-wrap :global(.title-emphasis) { position: relative; display: inline-block; isolation: isolate; vertical-align: baseline; white-space: nowrap; }
+  .hero-title-wrap :global(.title-emphasis-text) { position: relative; z-index: 1; }
+  .hero-title-wrap :global(.title-doodles) { position: absolute; z-index: 0; top: -24%; left: -31%; width: 165%; height: 165%; max-width: none; object-fit: fill; pointer-events: none; user-select: none; }
   .hero-copy p { max-width: 32rem; margin: 1.1rem 0 0; color: var(--ink-soft); font-size: clamp(1rem, 1.25vw, 1.16rem); line-height: 1.62; }
-  .hero-actions { display: flex; align-items: center; gap: .9rem; margin-top: 1.25rem; }
-  .hero-actions .button-primary { min-height: 52px; padding-inline: 1.5rem; font-size: 1rem; }
+  .hero-actions { display: flex; align-items: flex-start; flex-direction: column; gap: .75rem; margin-top: 1.25rem; }
+  .hero-actions .button-primary { width: min(100%, 20rem); min-height: 64px; padding-inline: 2.25rem; font-size: 1.08rem; }
+  .hero-actions .button-secondary { padding-inline: .15rem .7rem; }
   @media (min-width: 901px) { .hero :global(.display-title) { font-size: clamp(2.75rem, 4vw, 4.2rem); } }
   @media (max-width: 1120px) { .hero-grid { grid-template-columns: minmax(0, .9fr) minmax(30rem, 1.1fr); } }
   @media (max-width: 900px) { .hero { min-height: auto; } .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 0; } .hero-copy { padding-top: 3.8rem; padding-bottom: 0; } }
   @media (max-width: 767px) {
     .hero { padding-top: 0; }
     .hero-copy { padding-top: 1.25rem; }
+    .hero-title-wrap :global(.title-doodles) { left: -27%; width: 155%; }
     .hero-copy p { max-width: 30rem; margin-top: 1.35rem; font-size: 1.06rem; line-height: 1.72; }
     .hero-actions { align-items: flex-start; flex-direction: column; margin-top: 1.6rem; }
     .hero-actions .button-primary { width: min(100%, 20rem); }

@@ -72,4 +72,48 @@
 
 - [P3] A native 1512 × 792 in-app-browser capture was unavailable because the viewport capability stayed fixed at 1280 × 720. The 14-inch target is covered by the measured 70dvh rule and the fixed 36rem collage cap, but a future physical-device screenshot can provide one last optical check.
 
+## Highlight, CTA, And Interactive Workflow Iteration
+
+### Current Evidence
+
+- Card-style reference: `/var/folders/qr/3wqfzbs10txdrjvdglp90s100000gn/T/codex-clipboard-703d1db7-3eb6-4346-add7-89541c031655.png` (2940 × 1922 px).
+- Existing four-step copy and icon reference: `/var/folders/qr/3wqfzbs10txdrjvdglp90s100000gn/T/codex-clipboard-5834b0a3-ccba-4b7b-9cdf-f160f39ec318.png` (2690 × 654 px).
+- Green button reference: `/var/folders/qr/3wqfzbs10txdrjvdglp90s100000gn/T/codex-clipboard-c8fcc571-8cb3-4059-9136-429358ed4aae.png` (172 × 116 px).
+- Desktop homepage implementation: `/Users/reason/Desktop/projects/cn-memes-abroad-web/output/design-qa/home-1512x900.png` (1497 × 891 px).
+- Desktop workflow default: `/Users/reason/Desktop/projects/cn-memes-abroad-web/output/design-qa/workflow-step-1-1512x900.png` (1497 × 891 px).
+- Desktop workflow selected state: `/Users/reason/Desktop/projects/cn-memes-abroad-web/output/design-qa/workflow-step-3-1512x900.png` (1497 × 891 px).
+- Mobile homepage: `/Users/reason/Desktop/projects/cn-memes-abroad-web/output/design-qa/home-mobile-390x844.png` (375 × 812 px).
+- Mobile workflow: `/Users/reason/Desktop/projects/cn-memes-abroad-web/output/design-qa/workflow-mobile-390x844.png` (375 × 812 px).
+- Full-view card and CTA comparison: `/Users/reason/Desktop/projects/cn-memes-abroad-web/output/design-qa/comparison-highlights-and-button.png` (3024 × 900 px).
+- Focused workflow comparison: `/Users/reason/Desktop/projects/cn-memes-abroad-web/output/design-qa/comparison-workflow.png` (3024 × 900 px).
+
+### Current Normalization
+
+- Desktop viewport override requested 1512 × 900 CSS px. The browser content viewport and screenshot were 1497 × 891 px at device scale factor 1 after scrollbar and browser-surface allocation.
+- Mobile viewport override requested 390 × 844 CSS px. The browser content viewport and screenshot were 375 × 812 px at device scale factor 1.
+- Reference and implementation images were each fitted into 1512 × 900 frames without stretching, then composited side by side on a 3024 × 900 comparison canvas.
+- State: light theme. Homepage at rest, workflow step 01 selected for default comparison, step 03 selected for interaction-state evidence.
+
+### Required Fidelity Surfaces
+
+- Fonts and typography: Existing headline and UI families remain unchanged. The three new highlight titles use the same sans family and weight vocabulary as the rest of the page. Workflow labels preserve the original four titles and descriptions verbatim.
+- Spacing and layout rhythm: The Hero measures 576 px in the 900 px desktop view (64%). The new highlight cards begin at 648 px, leaving 252 px of the feature region visible on the initial screen. The workflow is a left preview and right vertical control stack on desktop, and a screenshot-first single column on mobile.
+- Colors and visual tokens: The CTA now uses a sampled pale-green direction (`#b8e7a7`) with a 3 px charcoal outline and 6 px solid offset shadow. Highlight and selected-step surfaces reuse this green; the existing ivory graph paper and charcoal ink remain locked.
+- Image quality and asset fidelity: The import screenshot is the existing product image. Connection, organization, and export images were generated as 1536 × 1024 raster assets using the import screen as the exact framing and art-direction reference. All four images loaded with a natural width of 1536 px in browser QA.
+- Copy and content: Highlight copy matches the requested three title and description pairs. Workflow copy remains exactly: 导入、连接、整理、导出 and the previous four descriptions.
+- Accessibility and behavior: The four controls use tab semantics, expose one selected item at a time, support click plus arrow/Home/End keyboard navigation, update the caption and screenshot together, and respect reduced motion. Mobile and desktop showed no horizontal overflow.
+
+### Current Comparison History
+
+- Pass 1: Replaced the flat stationery strip with three offset, rotated highlight cards; converted the former horizontal step row into an interactive left-image/right-controls layout; unified all primary download CTAs to the pale-green outlined style.
+- Pass 2: Verified steps 01 and 03 visually, clicked step 03, clicked step 04 on mobile, and moved from step 01 to step 02 with ArrowDown. Each action produced one selected tab and the matching active screenshot/caption.
+- Post-fix evidence: `comparison-highlights-and-button.png`, `comparison-workflow.png`, and `workflow-step-3-1512x900.png`.
+- Browser console warnings and errors: none.
+- Build: Astro check completed with 0 errors, 0 warnings, and 0 hints; static build artifact exists at `dist/index.html`.
+
+### Current Findings
+
+- No actionable P0, P1, or P2 findings remain.
+- [P3] The generated workflow screenshots are polished product-direction assets, not final captures from the shipping macOS app. Replace them one-for-one when final product screens are available; component proportions and interaction behavior can remain unchanged.
+
 final result: passed
