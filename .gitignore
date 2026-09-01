@@ -4,6 +4,7 @@ dist/
 .wrangler/
 .playwright-cli/
 output/
+audit-output/
 .DS_Store
 *.log
 .env
