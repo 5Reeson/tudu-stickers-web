@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://memes-abroad.example.com/sitemap-index.xml
+Sitemap: https://tudu-stickers.com/sitemap-index.xml

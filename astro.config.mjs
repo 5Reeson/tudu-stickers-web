@@ -5,7 +5,7 @@ import icon from "astro-icon";
 import Font from "vite-plugin-font";
 
 export default defineConfig({
-  site: "https://memes-abroad.example.com",
+  site: "https://tudu-stickers.com",
   integrations: [sitemap(), icon()],
   vite: {
     plugins: [
