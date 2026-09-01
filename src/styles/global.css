@@ -30,7 +30,7 @@
     min-width: 320px;
     min-height: 100dvh;
     overflow-x: clip;
-    background-color: #f7f3e9;
+    background-color: var(--page-canvas);
     background-image: url("/design/graph-paper-background-clean.png");
     background-position: top center;
     background-size: 1536px auto;

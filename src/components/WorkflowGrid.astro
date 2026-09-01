@@ -1,15 +1,15 @@
 ---
 import { Icon } from "astro-icon/components";
-import importStep from "@/assets/app-screenshots/import-step-temporary.png";
-import connectStep from "@/assets/app-screenshots/connect-step-generated.png";
-import organizeStep from "@/assets/app-screenshots/organize-step-generated.png";
-import exportStep from "@/assets/app-screenshots/export-step-generated.png";
+import step1 from "@/assets/app-screenshots/step-1.png";
+import step2 from "@/assets/app-screenshots/step-2.png";
+import step3 from "@/assets/app-screenshots/step-3.png";
+import step4 from "@/assets/app-screenshots/step-4.png";
 
 const steps = [
-  { icon: "ph:folder-simple-plus", title: "导入", body: "从微信或本机导入，支持单个或批量操作。", image: importStep.src, alt: "图渡的微信与本机表情导入界面" },
-  { icon: "ph:plugs-connected", title: "连接", body: "连接到 WhatsApp 等应用，无缝完成表情包出海。", image: connectStep.src, alt: "图渡连接微信与 WhatsApp 的界面" },
-  { icon: "ph:tag", title: "整理", body: "分组收藏，统一命名，建立自己的表情包素材库。", image: organizeStep.src, alt: "图渡整理与分组表情素材的界面" },
-  { icon: "ph:export", title: "导出", body: "一键导出到目标应用，也可保存到本地路径。", image: exportStep.src, alt: "图渡导出表情到 WhatsApp 或本地的界面" },
+  { icon: "ph:folder-simple-plus", title: "导入", body: "从微信或本机导入，支持单个或批量操作。", image: step1, alt: "图渡选择微信或本机表情素材来源的界面" },
+  { icon: "ph:plugs-connected", title: "连接", body: "连接到 WhatsApp 等应用，无缝完成表情包出海。", image: step2, alt: "图渡选择并连接 WhatsApp 目的地的界面" },
+  { icon: "ph:tag", title: "整理", body: "分组收藏，统一命名，建立自己的表情包素材库。", image: step3, alt: "图渡挑选需要传输的表情包素材界面" },
+  { icon: "ph:export", title: "导出", body: "一键导出到目标应用，也可保存到本地路径。", image: step4, alt: "图渡检查并向 WhatsApp 传输表情包的界面" },
 ];
 ---
 
@@ -26,10 +26,10 @@ const steps = [
           {steps.map((step, index) => (
             <img
               class:list={["preview-image", { active: index === 0 }]}
-              src={step.image}
+              src={step.image.src}
               alt={step.alt}
-              width="1536"
-              height="1024"
+              width={step.image.width}
+              height={step.image.height}
               loading={index === 0 ? "eager" : "lazy"}
               data-preview-image={index}
             />
@@ -90,14 +90,14 @@ const steps = [
 </script>
 
 <style>
-  .workflow { position: relative; border-bottom: 1px solid var(--line); }
+  .workflow { position: relative; }
   .workflow-shell { padding-block: clamp(4rem, 7vw, 7rem); }
   .workflow-heading { margin-bottom: clamp(2.4rem, 4.6vw, 4.5rem); }
   .workflow-heading .section-title { max-width: 11ch; }
   .workflow-heading p { max-width: 35rem; margin: 1rem 0 0; color: var(--ink-soft); font-size: clamp(1rem, 1.35vw, 1.15rem); line-height: 1.65; }
   .workflow-layout { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(21rem, .85fr); align-items: center; gap: clamp(2.3rem, 6vw, 6rem); }
   .workflow-preview { min-width: 0; margin: 0; transform: rotate(-1.2deg); }
-  .preview-paper { position: relative; aspect-ratio: 3 / 2; overflow: hidden; border: 3px solid var(--ink); border-radius: 18px; background: #101112; box-shadow: 11px 12px 0 var(--ink); }
+  .preview-paper { position: relative; aspect-ratio: 3024 / 1758; overflow: hidden; border: 3px solid var(--ink); border-radius: 18px; background: var(--paper-raised); box-shadow: 10px 11px 0 color-mix(in srgb, var(--accent) 18%, var(--paper-raised)); }
   .preview-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: translate3d(2.5%, 0, 0) scale(1.018); transition: opacity 260ms ease, transform 430ms cubic-bezier(.16, 1, .3, 1); }
   .preview-image.active { z-index: 1; opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
   .workflow-preview figcaption { width: fit-content; margin: .85rem 0 0 1rem; padding: .3rem .65rem; border: 2px solid var(--ink); border-radius: 8px; color: var(--ink); background: var(--paper-raised); box-shadow: 3px 3px 0 var(--ink); font-family: ui-monospace, "SFMono-Regular", Consolas, monospace; font-size: .78rem; font-weight: 800; transform: rotate(1.5deg); }
@@ -126,7 +126,7 @@ const steps = [
   @media (max-width: 560px) {
     .workflow-shell { padding-block: 3.5rem 4.5rem; }
     .workflow-heading { margin-bottom: 2rem; }
-    .preview-paper { border-width: 2px; border-radius: 13px; box-shadow: 6px 7px 0 var(--ink); }
+    .preview-paper { border-width: 2px; border-radius: 13px; box-shadow: 6px 7px 0 color-mix(in srgb, var(--accent) 18%, var(--paper-raised)); }
     .workflow-preview figcaption { margin-left: .45rem; }
     .workflow-tabs { gap: .8rem; }
     .workflow-tab { grid-template-columns: auto auto 1fr; gap: .72rem; padding: .9rem; }

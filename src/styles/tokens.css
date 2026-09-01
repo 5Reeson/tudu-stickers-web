@@ -1,5 +1,6 @@
 :root {
   color-scheme: light;
+  --page-canvas: #f7f3e9;
   --paper: #fbfaf7;
   --paper-raised: #fffefb;
   --paper-soft: #f4f2ec;

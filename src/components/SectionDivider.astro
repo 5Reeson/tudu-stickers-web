@@ -1,0 +1,43 @@
+<div class="section-divider" aria-hidden="true">
+  <img
+    src="/design/section-doodle-divider.svg"
+    alt=""
+    width="1465"
+    height="145"
+    loading="lazy"
+  />
+</div>
+
+<style>
+  .section-divider {
+    display: flex;
+    width: min(100%, var(--content-max));
+    height: clamp(6.5rem, 10vw, 9rem);
+    align-items: center;
+    margin: clamp(.25rem, 1vw, 1rem) auto;
+    overflow: visible;
+    padding-inline: max(2px, calc(var(--page-gutter) - 2px));
+    pointer-events: none;
+  }
+
+  .section-divider img {
+    width: 100%;
+    max-width: none;
+    height: auto;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  @media (max-width: 560px) {
+    .section-divider {
+      height: 4.75rem;
+      margin-block: .25rem;
+      padding-inline: 0;
+    }
+
+    .section-divider img {
+      width: 100%;
+      transform: none;
+    }
+  }
+</style>

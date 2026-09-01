@@ -2,6 +2,7 @@
 import DownloadCta from "@/components/DownloadCta.astro";
 import FaqSection from "@/components/FaqSection.astro";
 import Hero from "@/components/Hero.astro";
+import SectionDivider from "@/components/SectionDivider.astro";
 import SecuritySection from "@/components/SecuritySection.astro";
 import SiteFooter from "@/components/SiteFooter.astro";
 import SiteHeader from "@/components/SiteHeader.astro";
@@ -13,6 +14,18 @@ const description = "在 Mac 上把微信表情轻松导出到 WhatsApp 或保�
 ---
 <SiteLayout title={title} description={description}>
   <SiteHeader />
-  <main><Hero /><TrustStrip /><WorkflowGrid /><SecuritySection /><!-- FeatureDetails 暂时隐藏，组件文件保留以便后续恢复。 --><FaqSection /><DownloadCta /></main>
+  <main>
+    <Hero />
+    <TrustStrip />
+    <SectionDivider />
+    <WorkflowGrid />
+    <SectionDivider />
+    <SecuritySection />
+    <!-- FeatureDetails 暂时隐藏，组件文件保留以便后续恢复。 -->
+    <SectionDivider />
+    <FaqSection />
+    <SectionDivider />
+    <DownloadCta />
+  </main>
   <SiteFooter />
 </SiteLayout>

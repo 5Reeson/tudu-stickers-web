@@ -1,23 +1,25 @@
 ---
 import { Icon } from "astro-icon/components";
 const features = [
-  { icon: "ph:shield-check", title: "所有处理都在本地完成", body: "不上传、不分析，也不在云端留下素材副本。" },
-  { icon: "ph:lock-key-open", title: "使用 macOS 原生安全能力", body: "敏感凭证交给系统钥匙串保存，素材留在你的设备。" },
+  { icon: "ph:shield-check", title: "本地处理不上云", body: "所有图片处理均在本地进行、不上传数据到云端。仅表情包下载、传输到 WhatsApp 等目标应用需联网。" },
+  { icon: "ph:lock-key-open", title: "缓存优先少联网", body: "本应用会尽量读取系统内已有的缓存数据，减少对网络的请求次数。" },
 ];
 ---
 <section id="security" class="security section-block" aria-labelledby="security-title">
   <div class="page-shell security-grid">
-    <h2 id="security-title" class="section-title"><span>你的素材，</span><span>只属于你</span></h2>
-    <div class="security-features">{features.map((feature) => <article><Icon name={feature.icon} size={48} aria-hidden="true" /><div><h3>{feature.title}</h3><p>{feature.body}</p></div></article>)}</div>
+    <h2 id="security-title" class="section-title"><span>本地处理，</span><span>隐私承诺</span></h2>
+    <div class="security-features">{features.map((feature) => <article><Icon name={feature.icon} size={48} aria-hidden="true" /><div class="feature-copy"><h3>{feature.title}</h3><p>{feature.body}</p></div></article>)}</div>
   </div>
 </section>
 <style>
-  .security-grid { display: grid; grid-template-columns: minmax(18rem, .85fr) minmax(0, 1.15fr); align-items: start; gap: clamp(3rem, 9vw, 10rem); }
-  .security-features { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(2.2rem, 4vw, 5rem); }
-  .security-features article { display: grid; gap: 1.3rem; }
-  .security-features svg { color: var(--accent); }
-  .security-features h3 { margin: 0; font-size: 1.25rem; letter-spacing: -.035em; }
+  .security { padding-top: clamp(3.25rem, 5.5vw, 5.5rem); }
+  .security-grid { display: grid; grid-template-columns: minmax(18rem, .8fr) minmax(0, 1.2fr); align-items: start; gap: clamp(3rem, 9vw, 9rem); }
+  .security-features { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: clamp(2.25rem, 3.5vw, 4rem); }
+  .security-features article { display: grid; grid-template-rows: 48px auto; gap: 1.3rem; min-width: 0; }
+  .security-features svg { width: 48px; height: 48px; color: var(--accent); }
+  .feature-copy { min-width: 0; }
+  .security-features h3 { min-height: 1.5em; margin: 0; font-size: 1.25rem; line-height: 1.5; letter-spacing: -.035em; }
   .security-features p { margin: .55rem 0 0; color: var(--ink-soft); line-height: 1.7; }
-  @media (max-width: 850px) { .security-grid { grid-template-columns: minmax(0, 1fr); gap: 3rem; } }
+  @media (max-width: 850px) { .security { padding-top: 3.5rem; } .security-grid { grid-template-columns: minmax(0, 1fr); gap: 3rem; } }
   @media (max-width: 620px) { .security-features { grid-template-columns: minmax(0, 1fr); } }
 </style>

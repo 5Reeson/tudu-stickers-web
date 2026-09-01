@@ -32,10 +32,32 @@
 
 .app-shot {
   z-index: 3;
-  top: -2%;
-  left: -4%;
-  width: 125%;
+  top: 1%;
+  left: 10%;
+  width: 82%;
+  --app-tilt-x: 1.2deg;
+  --app-tilt-y: -4deg;
+  --app-tilt-z: 2.5deg;
   filter: drop-shadow(12px 16px 20px rgb(17 17 17 / 20%));
+}
+
+.app-window {
+  width: 100%;
+  overflow: hidden;
+  aspect-ratio: 2 / 3;
+  border: 1px solid rgb(23 23 23 / 10%);
+  border-radius: clamp(14px, 2vw, 24px);
+  background: #fff;
+  transform: perspective(1200px) rotateX(var(--app-tilt-x)) rotateY(var(--app-tilt-y)) rotateZ(var(--app-tilt-z)) scale(.92);
+  transform-origin: 52% 44%;
+}
+
+.app-window picture,
+.app-window img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
 }
 
 .lulu-sticker {
@@ -163,9 +185,12 @@
   }
 
   .app-shot {
-    top: 3%;
-    left: -10%;
-    width: 145%;
+    top: 2%;
+    left: 2%;
+    width: 96%;
+    --app-tilt-x: .8deg;
+    --app-tilt-y: -2.5deg;
+    --app-tilt-z: 1.6deg;
   }
 
   .lulu-sticker {

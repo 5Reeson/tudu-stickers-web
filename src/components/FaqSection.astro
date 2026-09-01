@@ -5,6 +5,9 @@ const faqs = [
   { question: "现在支持哪些来源？", answer: "首版围绕微信与本机文件导入。更多来源会在完成真实适配与测试后公布。" },
   { question: "应该下载哪个安装包？", answer: "Apple silicon 适用于 M 系列芯片，Intel 适用于 Intel 芯片。下载区会尝试给出推荐，你也可以手动切换。" },
   { question: "Windows 可以使用吗？", answer: "目前只规划 macOS 版本。Windows 版本尚无确认时间。" },
+  { question: "项目请求系统权限安全吗？", answer: "安全。项目需要读取你的微信应用目录，必要时可能需要使用 macOS 系统对登录凭证进行加密保存。这些数据都不会被上传到服务器，只是应用正常运行的必要条件。" },
+  { question: "系统显示“来自未知开发者”的 APP 正常吗？", answer: "正常。因为本应用仅供个人学习、交流和研究使用，并非商用项目，所以没有向苹果申请官方认证和签名。可以放心使用。" },
+  { question: "有封号风险吗？", answer: "在作者的开发过程中没有出现风险提示，但不排除潜在风险。如果弹出风控警报，建议停止使用本应用。" },
 ];
 ---
 <section id="faq" class="faq section-block" aria-labelledby="faq-title">

@@ -112,7 +112,7 @@ const downloads: Record<Architecture, { label: string; detail: string; url: stri
   });
 </script>
 <style>
-  .download { padding-top: 1rem; }
+  .download { padding-top: clamp(4rem, 7vw, 7rem); }
   .download-panel { position: relative; display: grid; min-height: 25rem; grid-template-columns: minmax(0, 1fr) minmax(19rem, .72fr); align-items: center; gap: clamp(2rem, 5vw, 5rem); overflow: hidden; padding: clamp(2rem, 6vw, 5.5rem); border: 3px solid var(--ink); border-radius: var(--radius-paper); color: var(--ink); background: linear-gradient(90deg, #fffaf0 0%, #fff6df 45%, #fdecb6 100%); box-shadow: 0 10px 0 var(--ink); }
   .download-panel::after { position: absolute; top: 10%; right: -5%; width: 26%; aspect-ratio: 1; content: ""; opacity: .22; background: radial-gradient(circle, #2f7f4e 0 1.5px, transparent 1.8px) 0 0 / 11px 11px; transform: rotate(8deg); }
   .download-panel > * { position: relative; z-index: 1; }

@@ -1,4 +1,3 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="12" fill="#171717"/>
-  <text x="32" y="40" fill="#fbfaf7" font-size="26" font-weight="800" text-anchor="middle" font-family="system-ui, sans-serif">梗</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <image href="/brand/tudu-logo-v2/tudu-logo-128.png" width="128" height="128" preserveAspectRatio="xMidYMid slice" />
 </svg>
