@@ -18,7 +18,8 @@
     "@astrojs/sitemap": "latest",
     "@iconify-json/ph": "latest",
     "astro": "latest",
-    "astro-icon": "latest"
+    "astro-icon": "latest",
+    "sharp": "^0.35.3"
   },
   "devDependencies": {
     "@astrojs/check": "latest",
@@ -33,7 +34,8 @@
     "onlyBuiltDependencies": [
       "cn-font-split",
       "koffi",
-      "protobufjs"
+      "protobufjs",
+      "sharp"
     ],
     "patchedDependencies": {
       "vite-plugin-font@5.1.2": "patches/vite-plugin-font@5.1.2.patch"
