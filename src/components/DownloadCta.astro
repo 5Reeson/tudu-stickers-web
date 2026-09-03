@@ -1,13 +1,6 @@
 ---
 import { Icon } from "astro-icon/components";
-
-type Architecture = "arm64" | "x64";
-
-const downloads: Record<Architecture, { label: string; detail: string; url: string }> = {
-  // Replace these two paths with the final release URLs when ready.
-  arm64: { label: "Apple silicon", detail: "M 系列芯片 · ARM64", url: "/downloads/tudu-arm64.dmg" },
-  x64: { label: "Intel", detail: "Intel 芯片 · x86_64", url: "/downloads/tudu-x86_64.dmg" },
-};
+import { downloads } from "@/config/downloads";
 ---
 <section id="download" class="download section-block" aria-labelledby="download-title">
   <div class="page-shell">
