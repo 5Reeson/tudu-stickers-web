@@ -1,11 +1,14 @@
 ---
 import { Icon } from "astro-icon/components";
-const navItems = [
+const githubUrl = "https://github.com/5Reeson/tudu-stickers";
+type NavItem = { label: string; href: string; external?: boolean };
+const navItems: NavItem[] = [
   { label: "首页", href: "#top" },
   { label: "功能", href: "#workflow" },
   { label: "安全", href: "#security" },
   { label: "FAQ", href: "#faq" },
   { label: "关于", href: "#about" },
+  { label: "Github", href: githubUrl, external: true },
 ];
 ---
 
@@ -16,7 +19,11 @@ const navItems = [
       <span class="brand-name">图渡 - TuDu</span>
     </a>
     <nav class="desktop-nav" aria-label="主导航">
-      {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
+      {navItems.map((item) => (
+        <a href={item.href} target={item.external ? "_blank" : undefined} rel={item.external ? "noopener noreferrer" : undefined}>
+          {item.label}
+        </a>
+      ))}
     </nav>
     <a class="button-primary header-download download-type" href="#download">
       <Icon name="ph:download-simple" size={21} aria-hidden="true" /> 下载 macOS 版
@@ -24,7 +31,11 @@ const navItems = [
     <details class="mobile-menu">
       <summary aria-label="打开主菜单"><Icon name="ph:list" size={32} aria-hidden="true" /></summary>
       <nav aria-label="移动端主导航">
-        {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
+        {navItems.map((item) => (
+          <a href={item.href} target={item.external ? "_blank" : undefined} rel={item.external ? "noopener noreferrer" : undefined}>
+            {item.label}
+          </a>
+        ))}
         <a class="mobile-download download-type" href="#download">下载 macOS 版</a>
       </nav>
     </details>
