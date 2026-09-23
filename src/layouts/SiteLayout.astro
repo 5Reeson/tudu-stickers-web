@@ -1,5 +1,6 @@
 ---
 import { css as displayFont } from "@/assets/fonts/smiley-sans/SmileySans-Oblique.ttf?subsets";
+import { downloads, releaseVersion } from "@/config/downloads";
 import "@/styles/global.css";
 
 interface Props {
@@ -7,6 +8,7 @@ interface Props {
   description: string;
   canonicalPath?: string;
   ogImage?: string;
+  noindex?: boolean;
 }
 
 const {
@@ -14,18 +16,57 @@ const {
   description,
   canonicalPath = "/",
   ogImage = "/og/home-temporary.png",
+  noindex = false,
 } = Astro.props;
 
 const canonical = new URL(canonicalPath, Astro.site ?? Astro.url);
 const ogImageUrl = new URL(ogImage, Astro.site ?? Astro.url);
-const softwareApplication = {
+const siteUrl = new URL("/", Astro.site ?? Astro.url);
+const logoUrl = new URL("/brand/tudu-logo-v2/tudu-logo-512.png", Astro.site ?? Astro.url);
+const isHomePage = canonicalPath === "/";
+const structuredData = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  name: "图渡",
-  applicationCategory: "UtilitiesApplication",
-  operatingSystem: "macOS",
-  description,
-  offers: { "@type": "Offer", availability: "https://schema.org/InStock" },
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}#website`,
+      url: siteUrl,
+      name: "图渡",
+      alternateName: ["TuDu", "TuduStickers", "TuDu Stickers", "tudu-stickers.com"],
+      description,
+      inLanguage: "zh-CN",
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": `${siteUrl}#software`,
+      url: siteUrl,
+      name: "图渡 TuDu",
+      alternateName: ["图渡", "TuduStickers", "TuDu Stickers"],
+      description,
+      applicationCategory: "UtilitiesApplication",
+      applicationSubCategory: "表情包导出工具",
+      operatingSystem: "macOS",
+      softwareVersion: releaseVersion,
+      image: ogImageUrl,
+      logo: logoUrl,
+      downloadUrl: [downloads.arm64.url, downloads.x64.url],
+      isAccessibleForFree: true,
+      featureList: [
+        "导出微信表情包",
+        "一键保存表情包到本地",
+        "导入表情包到 WhatsApp、飞书和钉钉等应用",
+        "图片在本地处理",
+      ],
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "CNY",
+        availability: "https://schema.org/InStock",
+      },
+      sameAs: ["https://github.com/5Reeson/tudu-stickers"],
+      isPartOf: { "@id": `${siteUrl}#website` },
+    },
+  ],
 };
 const displayFontStack = `"${displayFont.family}", "PingFang SC", "Noto Sans CJK SC", "Microsoft YaHei", system-ui, sans-serif`;
 ---
@@ -36,6 +77,10 @@ const displayFontStack = `"${displayFont.family}", "PingFang SC", "Noto Sans CJK
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    <meta
+      name="robots"
+      content={noindex ? "noindex, follow" : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"}
+    />
     <meta name="theme-color" content="#fbfaf7" />
     <link rel="icon" type="image/png" sizes="32x32" href="/brand/tudu-logo-v2/tudu-logo-32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/brand/tudu-logo-v2/tudu-logo-16.png" />
@@ -43,6 +88,7 @@ const displayFontStack = `"${displayFont.family}", "PingFang SC", "Noto Sans CJK
     <link rel="canonical" href={canonical} />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="zh_CN" />
+    <meta property="og:site_name" content="图渡" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
@@ -52,7 +98,7 @@ const displayFontStack = `"${displayFont.family}", "PingFang SC", "Noto Sans CJK
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
     <title>{title}</title>
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(softwareApplication)} />
+    {isHomePage && <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />}
   </head>
   <body><slot /></body>
 </html>

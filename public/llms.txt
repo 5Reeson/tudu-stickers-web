@@ -1,0 +1,27 @@
+# 图渡 TuDu
+
+> 图渡（TuDu、TuduStickers）是一款 macOS 表情包导出工具，帮助用户导出微信表情包、保存到本地，并导入 WhatsApp、飞书、钉钉等其他应用。
+
+## 核心功能
+
+- 从微信或本机文件导入 GIF、PNG、JPG 和 WebP 表情素材。
+- 批量整理并导出微信表情包。
+- 一键将表情包保存到本地。
+- 将表情包导入 WhatsApp、飞书、钉钉等其他应用。
+- 图片处理在用户的 Mac 本地完成；除下载或向目标应用传输外，素材不会上传到图渡的服务器。
+
+## 系统与版本
+
+- 平台：macOS。
+- 架构：Apple silicon（ARM64）和 Intel（x86_64）。
+- 支持的微信版本与使用限制以官网 FAQ 和最新发行说明为准。
+
+## 官方链接
+
+- 官网：https://tudu-stickers.com/
+- 源代码与发行版本：https://github.com/5Reeson/tudu-stickers
+- 网站地图：https://tudu-stickers.com/sitemap-index.xml
+
+## 品牌名称
+
+中文名称为“图渡”，英文名称为“TuDu”，也称“TuduStickers”或“TuDu Stickers”。官网域名为 tudu-stickers.com。
