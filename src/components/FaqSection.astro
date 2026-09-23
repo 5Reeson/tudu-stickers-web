@@ -11,10 +11,23 @@ const faqs = [
   { question: "系统显示“来自未知开发者”的 APP 正常吗？", answer: "正常。因为本应用仅供个人学习、交流和研究使用，并非商用项目，所以没有向苹果申请官方认证和签名。可以放心使用。" },
   { question: "如何导出个人收藏之外的表情专辑？", answer: "只有新版（4.0 以上）微信支持，旧版微信中无法获取到表情专辑。请在打开微信副本后，打开聊天窗口、尽量多加载一些表情专辑。" },
 ];
+const faqStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((faq) => ({
+    "@type": "Question",
+    name: faq.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: faq.answer,
+    },
+  })),
+};
 ---
 <section id="faq" class="faq section-block" aria-labelledby="faq-title">
   <div class="page-shell faq-grid"><div><h2 id="faq-title" class="section-title"><span>使用之前</span><span>先了解这些</span></h2><p class="body-copy">关于素材安全、系统支持和下载版本，答案都写在这里。</p></div><div class="faq-list">{faqs.map((faq, index) => <details open={index === 0}><summary>{faq.question}</summary><p>{faq.answer}</p></details>)}</div></div>
 </section>
+<script is:inline type="application/ld+json" set:html={JSON.stringify(faqStructuredData)} />
 <style>
   .faq-grid { display: grid; grid-template-columns: minmax(18rem, .8fr) minmax(0, 1.2fr); gap: clamp(3rem, 9vw, 9rem); }
   .faq-grid > div:first-child { display: grid; align-content: start; gap: 1.5rem; }
